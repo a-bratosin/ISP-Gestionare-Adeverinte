@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: "3"
+
+# TODO: adauga variabile pentru build si src dir
+
+vars:
+  GREETING: Hello, world!
+
+tasks:
+  default:
+    desc: Print a greeting message
+    cmds:
+      - echo "{{.GREETING}}"
+    silent: true
+
+  init:
+    desc: Prepare /build dir
+    cmds:
+      - mkdir build
+
+  clean:
+    cmds:
+      - rm -rf build/*
+
+  build:
+    desc: Copilare Program
+    cmds:
+      - javac src/*  -d build/
