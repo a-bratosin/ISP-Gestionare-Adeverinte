@@ -15,7 +15,7 @@
       {
         devShells.default = pkgs.mkShell {
           packages = [
-            zulu25
+            jdk
             pkgs."go-task"
           ];
 
