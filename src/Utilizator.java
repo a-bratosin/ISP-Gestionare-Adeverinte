@@ -1,4 +1,4 @@
-public abstract class Utilizator {
+public class Utilizator {
 
     private String nume;
     private String prenume;
@@ -20,7 +20,44 @@ public abstract class Utilizator {
         this.parola = parola;
     }
 
-    public abstract void modificareDate();
+    String getNume() {
+        return nume;
+    }
 
-    public abstract void resetareParola();
+    String getPrenume() {
+        return prenume;
+    }
+    String getTelefon() {
+        return telefon;
+    }
+    String getEmail() {
+        return email;
+    }
+    String getParola() {
+        return parola;
+    }
+
+    void setNume(String nume) {
+        this.nume = nume;
+    }
+    void setPrenume(String prenume) {
+        this.prenume = prenume;
+    }
+    void setTelefon(String telefon) {
+        this.telefon = telefon;
+    }
+    void setEmail(String email) {
+        this.email = email;
+    }
+    void setParola(String parola) {
+        this.parola = parola;
+    }
+    
+    public void modificareDate() {
+        // Implementation for modifying user data
+    }
+
+    public void resetareParola() {
+        // Implementation for resetting password
+    }
 }
