@@ -1,10 +1,11 @@
-public abstract class Student extends Utilizator {
+public class Student extends Utilizator {
 
     private int nrMatriceal;
     private String serie;
     private int grupa;
 
     public Student(
+        String id,
         String nume,
         String prenume,
         String telefon,
@@ -14,13 +15,17 @@ public abstract class Student extends Utilizator {
         String serie,
         int grupa
     ) {
-        super(nume, prenume, telefon, email, parola);
+        super(id, nume, prenume, telefon, email, parola);
         this.nrMatriceal = nrMatriceal;
         this.serie = serie;
         this.grupa = grupa;
     }
 
-    public abstract void incarcareAdeverinta();
+    public  void incarcareAdeverinta(){
+        return;
+    }
 
-    public abstract Adeverinta descarcareAdeverinta();
+    public  Adeverinta descarcareAdeverinta(){
+        return null;
+    }
 }

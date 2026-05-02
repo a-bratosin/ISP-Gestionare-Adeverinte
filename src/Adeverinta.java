@@ -62,7 +62,7 @@ public class Adeverinta {
         this.comentariu = comentariu;
     }
 
-    public void compile(){};
+    public void compile() {}
 
-    public void render(){};
+    public void render() {}
 }

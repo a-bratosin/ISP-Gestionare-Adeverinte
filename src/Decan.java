@@ -6,6 +6,7 @@ public class Decan extends Utilizator {
     private String idMandat;
 
         public Decan(
+            String id,
             String nume,
             String prenume,
             String telefon,
@@ -15,7 +16,7 @@ public class Decan extends Utilizator {
             String facultate,
             String idMandat
         ) {
-            super(nume, prenume, telefon, email, parola);
+            super(id, nume, prenume, telefon, email, parola);
             this.semnatura = semnatura;
             this.facultate = facultate;
             this.idMandat = idMandat;
