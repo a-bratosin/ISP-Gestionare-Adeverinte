@@ -6,6 +6,15 @@ public class Utilizator {
     private String email;
     private String parola;
 
+    //TODO: pune ceva valori mai ok
+    public Utilizator() {
+        this.nume = "heheheha";
+        this.prenume = "heheheha";
+        this.telefon = "heheheha";
+        this.email = "heheheha";
+        this.parola = "heheheha";
+    }
+
     public Utilizator(
         String nume,
         String prenume,
@@ -27,12 +36,15 @@ public class Utilizator {
     String getPrenume() {
         return prenume;
     }
+
     String getTelefon() {
         return telefon;
     }
+
     String getEmail() {
         return email;
     }
+
     String getParola() {
         return parola;
     }
@@ -40,19 +52,23 @@ public class Utilizator {
     void setNume(String nume) {
         this.nume = nume;
     }
+
     void setPrenume(String prenume) {
         this.prenume = prenume;
     }
+
     void setTelefon(String telefon) {
         this.telefon = telefon;
     }
+
     void setEmail(String email) {
         this.email = email;
     }
+
     void setParola(String parola) {
         this.parola = parola;
     }
-    
+
     public void modificareDate() {
         // Implementation for modifying user data
     }
