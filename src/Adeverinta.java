@@ -18,13 +18,63 @@ public class Adeverinta {
     private StareCerere stareCerere;
     private CategoriiAdeverinte categorieCerere;
     private String comentariu;
+    private Student studentEmitator;
+    private SecretarDeAn secretarValidator;
+    private Decan decanSemnatar;
 
+    // Cazul 1: Cererea a fost doar trimisă de student
     public Adeverinta(
         Date dataTrimitere,
         Date dataFinalizare,
         StareCerere stareCerere,
         CategoriiAdeverinte categorieCerere,
-        String comentariu
+        String comentariu,
+        Student studentEmitator
+    ) {
+        this(
+            dataTrimitere,
+            dataFinalizare,
+            stareCerere,
+            categorieCerere,
+            comentariu,
+            studentEmitator,
+            null,
+            null
+        );
+    }
+
+    // Cazul 2: Cererea a fost validată de secretar
+    public Adeverinta(
+        Date dataTrimitere,
+        Date dataFinalizare,
+        StareCerere stareCerere,
+        CategoriiAdeverinte categorieCerere,
+        String comentariu,
+        Student studentEmitator,
+        SecretarDeAn secretarValidator
+    ) {
+        this(
+            dataTrimitere,
+            dataFinalizare,
+            stareCerere,
+            categorieCerere,
+            comentariu,
+            studentEmitator,
+            secretarValidator,
+            null
+        );
+    }
+
+    // Cazul 3: Cererea a fost semnată de decan
+    public Adeverinta(
+        Date dataTrimitere,
+        Date dataFinalizare,
+        StareCerere stareCerere,
+        CategoriiAdeverinte categorieCerere,
+        String comentariu,
+        Student studentEmitator,
+        SecretarDeAn secretarValidator,
+        Decan decanSemnatar
     ) {
         this.path = "tmp.txt";
         this.dataTrimitere = dataTrimitere;
@@ -32,9 +82,21 @@ public class Adeverinta {
         this.stareCerere = stareCerere;
         this.categorieCerere = categorieCerere;
         this.comentariu = comentariu;
+        this.studentEmitator = studentEmitator;
+        this.secretarValidator = secretarValidator;
+        this.decanSemnatar = decanSemnatar;
     }
 
-    public Adeverinta(String[] entry) {}
+    public Adeverinta(
+        String[] entry,
+        Student studentEmitator,
+        SecretarDeAn secretarValidator,
+        Decan decanSemnatar
+    ) {
+        this.studentEmitator = studentEmitator;
+        this.secretarValidator = secretarValidator;
+        this.decanSemnatar = decanSemnatar;
+    }
 
     public static Adeverinta[] get_nevalidate() {
         return null;
