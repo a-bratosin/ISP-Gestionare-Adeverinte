@@ -1,4 +1,5 @@
 public class Utilizator {
+
     private String id;
     private String nume;
     private String prenume;
@@ -17,7 +18,8 @@ public class Utilizator {
 
     public Utilizator(
         String id,
-        String nume, String prenume,
+        String nume,
+        String prenume,
         String telefon,
         String email,
         String parola
@@ -33,9 +35,11 @@ public class Utilizator {
     String getNume() {
         return nume;
     }
-    String getId(){
+
+    String getId() {
         return id;
     }
+
     String getPrenume() {
         return prenume;
     }
@@ -71,13 +75,15 @@ public class Utilizator {
     void setParola(String parola) {
         this.parola = parola;
     }
-<<<<<<< HEAD
 
-=======
+    //<<<<<<< HEAD
+
+    //=======
     void setId(String id) {
         this.id = id;
     }
->>>>>>> b6b2b2e1805c20b82ec455178327ace092b4f2f8
+
+    //>>>>>>> b6b2b2e1805c20b82ec455178327ace092b4f2f8
     public void modificareDate() {
         // Implementation for modifying user data
     }

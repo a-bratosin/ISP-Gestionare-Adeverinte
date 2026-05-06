@@ -65,4 +65,14 @@ public class Adeverinta {
     public void compile() {}
 
     public void render() {}
+
+    public void alegere_categorie() {
+        CsvManager myCsvManager = new CsvManager();
+
+        String[] dateDeBaza = myCsvManager.findRow(
+            "tipuri_adev.csv",
+            "tip",
+            tip
+        );
+    }
 }
