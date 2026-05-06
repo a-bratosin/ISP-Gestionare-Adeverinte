@@ -1,4 +1,5 @@
 import java.util.Date;
+import java.util.Scanner;
 
 public class Adeverinta {
 
@@ -68,11 +69,30 @@ public class Adeverinta {
 
     public void alegere_categorie() {
         CsvManager myCsvManager = new CsvManager();
+        System.out.println("Categorii disponibile:");
+        CategoriiAdeverinte[] valori = CategoriiAdeverinte.values();
+        for (int i = 0; i < valori.length; i++) {
+            System.out.println(i + " - " + valori[i]);
+        }
 
-        String[] dateDeBaza = myCsvManager.findRow(
-            "tipuri_adev.csv",
-            "tip",
-            tip
-        );
+        System.out.print("Selecteaza categoria (0-" + (valori.length - 1) + "): ");
+        Scanner scanner = new Scanner(System.in);
+        int alegere = -1;
+        while (true) {
+            if (scanner.hasNextInt()) {
+                alegere = scanner.nextInt();
+                if (alegere >= 0 && alegere < valori.length) {
+                    break;
+                } else {
+                    System.out.print("Valoare invalida. Reintrodu (0-" + (valori.length - 1) + "): ");
+                }
+            } else {
+                scanner.next(); // consume invalid token
+                System.out.print("Va rugam introduceti un numar: ");
+            }
+        }
+
+        scanner.close();
+        this.categorieCerere = valori[alegere];
     }
 }
