@@ -63,6 +63,64 @@ public class CsvManager {
         }
     }
 
+    /**
+     * Caută toate rândurile dintr-un fișier CSV unde valoarea din coloana dată
+     * (identificată după numele din header) este egală cu {@code value}.
+     *
+     * @param csvFile     cale (relativă sau absolută) către fișierul CSV
+     * @param columnName  numele coloanei din header (prima linie)
+     * @param value       valoarea căutată (comparare exactă)
+     * @return o listă cu toate rândurile găsite sub formă de {@code String[]}
+     */
+    public List<String[]> findAllRows(
+        String csvFile,
+        String columnName,
+        String value
+    ) {
+        List<String[]> result = new ArrayList<>();
+        if (csvFile == null || columnName == null || value == null) {
+            return result;
+        }
+
+        Path path = Path.of(csvFile);
+        try (
+            BufferedReader reader = Files.newBufferedReader(
+                path,
+                StandardCharsets.UTF_8
+            )
+        ) {
+            String headerLine = readNextNonEmptyLine(reader);
+            if (headerLine == null) {
+                return result;
+            }
+
+            char delimiter = detectDelimiter(headerLine);
+            String[] headers = parseCsvLine(headerLine, delimiter);
+            int columnIndex = indexOfHeader(headers, columnName);
+            if (columnIndex < 0) {
+                return result;
+            }
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.isBlank()) {
+                    continue;
+                }
+                String[] row = parseCsvLine(line, delimiter);
+                if (
+                    columnIndex < row.length && value.equals(row[columnIndex])
+                ) {
+                    result.add(row);
+                }
+            }
+        } catch (NoSuchFileException e) {
+            return result;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     private static String readNextNonEmptyLine(BufferedReader reader)
         throws IOException {
         String line;
