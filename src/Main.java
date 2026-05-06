@@ -1,28 +1,42 @@
 import java.util.Scanner;
+import java.util.Date;
 
 public class Main {
 
     public static void main(String[] args) {
-        // EXTRA STUFF
-        Scanner myScanner = new Scanner(System.in);
-        Byte mySelection;
+        Scanner scanner = new Scanner(System.in);
 
-        // APLICARE PENTRU ADEVERINTA
-
-        System.out.println(
-            "Alege categoria de adeverinta:\n1) Adeverinta de student\n2) Adeverinta de ???\n[1/2/(N)one]\n"
-        );
-        mySelection = myScanner.nextByte();
-        if (mySelection == '1') {
-            System.out.println("Adev de student aleasa!\n");
-        } else if (mySelection == '2') {
-            System.out.println("Adev de ???\n");
-        } else if (mySelection == 'N') {
-            System.out.println("None selected. Bye\n!");
-            return;
-        } else {
-            System.out.println("Selectie gresita!\n[1/2/(N)one]\n");
+        System.out.print("Email: ");
+        if (!scanner.hasNextLine()) {
+            System.out.println("Nu s-a primit email. Bye!");
             return;
         }
+        String email = scanner.nextLine().trim();
+
+        System.out.print("Parola: ");
+        if (!scanner.hasNextLine()) {
+            System.out.println("Nu s-a primit parola. Bye!");
+            return;
+        }
+        String parola = scanner.nextLine().trim();
+
+        Utilizator user = Autentificare.login(email, parola);
+        if (user == null) {
+            System.out.println("Autentificare esuata (email/parola gresite sau user inexistent).");
+            return;
+        }
+
+        System.out.println("Autentificat ca: " + user.getNume() + " " + user.getPrenume());
+
+        Adeverinta adeverinta = new Adeverinta(
+            new Date(),
+            null,
+            StareCerere.incarcataDeStudent,
+            null,
+            ""
+        );
+        adeverinta.alegere_categorie(scanner);
+
+        System.out.println("Categorie selectata: " + adeverinta.getCategorieCerere());
     }
 }

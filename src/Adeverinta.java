@@ -1,3 +1,7 @@
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -68,6 +72,10 @@ public class Adeverinta {
     public void render() {}
 
     public void alegere_categorie() {
+        alegere_categorie(new Scanner(System.in));
+    }
+
+    public void alegere_categorie(Scanner scanner) {
         CsvManager myCsvManager = new CsvManager();
         System.out.println("Categorii disponibile:");
         CategoriiAdeverinte[] valori = CategoriiAdeverinte.values();
@@ -75,8 +83,9 @@ public class Adeverinta {
             System.out.println(i + " - " + valori[i]);
         }
 
-        System.out.print("Selecteaza categoria (0-" + (valori.length - 1) + "): ");
-        Scanner scanner = new Scanner(System.in);
+        System.out.print(
+            "Selecteaza categoria (0-" + (valori.length - 1) + "): "
+        );
         int alegere = -1;
         while (true) {
             if (scanner.hasNextInt()) {
@@ -84,7 +93,11 @@ public class Adeverinta {
                 if (alegere >= 0 && alegere < valori.length) {
                     break;
                 } else {
-                    System.out.print("Valoare invalida. Reintrodu (0-" + (valori.length - 1) + "): ");
+                    System.out.print(
+                        "Valoare invalida. Reintrodu (0-" +
+                            (valori.length - 1) +
+                            "): "
+                    );
                 }
             } else {
                 scanner.next(); // consume invalid token
@@ -92,7 +105,42 @@ public class Adeverinta {
             }
         }
 
-        scanner.close();
         this.categorieCerere = valori[alegere];
+
+        String[] dateDeBaza = myCsvManager.findRow(
+            "db/template.csv",
+            "Tip",
+            this.categorieCerere.name()
+        );
+
+        // dateDeBaza[1] e path la un fisier .txt
+        // muta tot continutul de la .txt intr-un tmp.txt
+        if (dateDeBaza == null || dateDeBaza.length < 2) {
+            System.out.println(
+                "Nu am gasit un template pentru categoria selectata: " +
+                    this.categorieCerere.name()
+            );
+            return;
+        }
+
+        Path templatePath = Path.of(dateDeBaza[1].trim());
+        Path tmpPath = Path.of("tmp.txt");
+
+        try {
+            Files.copy(
+                templatePath,
+                tmpPath,
+                StandardCopyOption.REPLACE_EXISTING
+            );
+        } catch (IOException e) {
+            System.out.println(
+                "Eroare la copierea template-ului din '" +
+                    templatePath +
+                    "' in '" +
+                    tmpPath +
+                    "'."
+            );
+            e.printStackTrace();
+        }
     }
 }

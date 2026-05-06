@@ -8,12 +8,13 @@ import javax.imageio.ImageIO;
 class Autentificare {
 
     private static CsvManager csvManager = new CsvManager();
+    private static final String DB_DIR = "db";
 
     public static Utilizator login(String email, String parola) {
         // indicii din csv:
         // 0 - id, 1- nume, 2-prenume, 3-telefon, 4-email, 5-parola, 6-rol,
         String[] dateDeBaza = csvManager.findRow(
-            "utilizatori.csv",
+            DB_DIR + File.separator + "utilizatori.csv",
             "email",
             email
         );
@@ -38,7 +39,22 @@ class Autentificare {
         // Student
         // 0-id, 1-nrmatriceal, 2-serie, 3-grupa
         if (rol.equals("Student")) {
-            dateSubclasa = csvManager.findRow("studenti.csv", "id", userId);
+            dateSubclasa =
+                csvManager.findRow(
+                    DB_DIR + File.separator + "studenti.csv",
+                    "id",
+                    userId
+                );
+            if (dateSubclasa == null) {
+                return new Utilizator(
+                    userId,
+                    nume,
+                    prenume,
+                    telefon,
+                    email,
+                    parola
+                );
+            }
 
             // Autentificare is now responsible for data type conversion
             int nrMatriceal = Integer.parseInt(dateSubclasa[1]);
@@ -57,7 +73,22 @@ class Autentificare {
                 grupa
             );
         } else if (rol.equals("Secretar")) {
-            dateSubclasa = csvManager.findRow("secretari.csv", "id", userId);
+            dateSubclasa =
+                csvManager.findRow(
+                    DB_DIR + File.separator + "secretari.csv",
+                    "id",
+                    userId
+                );
+            if (dateSubclasa == null) {
+                return new Utilizator(
+                    userId,
+                    nume,
+                    prenume,
+                    telefon,
+                    email,
+                    parola
+                );
+            }
 
             int an = Integer.parseInt(dateSubclasa[1]);
             String programDeLucru = dateSubclasa[2];
@@ -75,7 +106,22 @@ class Autentificare {
                 programPublic
             );
         } else if (rol.equals("Decan")) {
-            dateSubclasa = csvManager.findRow("decani.csv", "id", userId);
+            dateSubclasa =
+                csvManager.findRow(
+                    DB_DIR + File.separator + "decani.csv",
+                    "id",
+                    userId
+                );
+            if (dateSubclasa == null) {
+                return new Utilizator(
+                    userId,
+                    nume,
+                    prenume,
+                    telefon,
+                    email,
+                    parola
+                );
+            }
 
             BufferedImage semnatura;
             try {

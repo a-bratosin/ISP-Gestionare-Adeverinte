@@ -26,8 +26,8 @@ tasks:
   build:
     desc: Copilare Program
     cmds:
-      - javac src/* -d build/
+      - javac src/*.java -d build/
 
   run:
     cmds:
-      - java build/Main.class
+      - java -cp build Main
