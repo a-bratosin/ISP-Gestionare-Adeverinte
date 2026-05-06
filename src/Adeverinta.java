@@ -1,12 +1,18 @@
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Adeverinta {
 
+    private String path;
     private Date dataTrimitere;
     private Date dataFinalizare;
     private StareCerere stareCerere;
@@ -20,11 +26,22 @@ public class Adeverinta {
         CategoriiAdeverinte categorieCerere,
         String comentariu
     ) {
+        this.path = "tmp.txt";
         this.dataTrimitere = dataTrimitere;
         this.dataFinalizare = dataFinalizare;
         this.stareCerere = stareCerere;
         this.categorieCerere = categorieCerere;
         this.comentariu = comentariu;
+    }
+
+    public Adeverinta(String[] entry) {}
+
+    public static Adeverinta[] get_nevalidate() {
+        return null;
+    }
+
+    public static Adeverinta[] get_nesemnate() {
+        return null;
     }
 
     Date getDataTrimitere() {
@@ -47,6 +64,14 @@ public class Adeverinta {
         return comentariu;
     }
 
+    String getPath() {
+        return path;
+    }
+
+    void setPath(String path) {
+        this.path = path;
+    }
+
     void SetDataTrimitere(Date dataTrimitere) {
         this.dataTrimitere = dataTrimitere;
     }
@@ -67,9 +92,64 @@ public class Adeverinta {
         this.comentariu = comentariu;
     }
 
-    public void compile() {}
+    public boolean complete() {
+        return complete(new Scanner(System.in));
+    }
 
-    public void render() {}
+    public boolean complete(Scanner scanner) {
+        Path tmpPath = Path.of(this.path);
+        if (!Files.exists(tmpPath)) {
+            System.out.println(
+                "Nu exista '" +
+                    this.path +
+                    "'. Ruleaza intai alegere_categorie()."
+            );
+            return false;
+        }
+
+        String continut;
+        try {
+            continut = Files.readString(tmpPath, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            System.out.println(
+                "Eroare la citirea fisierului '" + this.path + "'."
+            );
+            e.printStackTrace();
+            return false;
+        }
+
+        Pattern myPattern = Pattern.compile("::[A-Za-z0-9_]+::");
+        Map<String, String> valori = new HashMap<>();
+
+        Matcher matcher = myPattern.matcher(continut);
+        while (matcher.find()) {
+            String token = matcher.group(); // ::label::
+            String label = token.substring(2, token.length() - 2);
+
+            String value = valori.get(label);
+            if (value == null) {
+                System.out.print(label + " ce valoare sa aiba? ");
+                if (!scanner.hasNextLine()) {
+                    System.out.println("Nu s-a primit valoare. Oprire.");
+                    return false;
+                }
+                value = scanner.nextLine();
+                valori.put(label, value);
+            }
+
+            continut = continut.replace(token, value);
+            matcher = myPattern.matcher(continut);
+        }
+
+        try {
+            Files.writeString(tmpPath, continut, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            System.out.println("Eroare la scrierea in '" + this.path + "'.");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 
     public void alegere_categorie() {
         alegere_categorie(new Scanner(System.in));
@@ -113,8 +193,8 @@ public class Adeverinta {
             this.categorieCerere.name()
         );
 
-        // dateDeBaza[1] e path la un fisier .txt
-        // muta tot continutul de la .txt intr-un tmp.txt
+        // dateDeBaza[1] e path la un fisier template
+        // muta tot continutul template-ului in fisierul temporar (this.path)
         if (dateDeBaza == null || dateDeBaza.length < 2) {
             System.out.println(
                 "Nu am gasit un template pentru categoria selectata: " +
@@ -124,7 +204,7 @@ public class Adeverinta {
         }
 
         Path templatePath = Path.of(dateDeBaza[1].trim());
-        Path tmpPath = Path.of("tmp.txt");
+        Path tmpPath = Path.of(this.path);
 
         try {
             Files.copy(

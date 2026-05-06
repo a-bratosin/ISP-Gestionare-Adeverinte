@@ -39,12 +39,11 @@ class Autentificare {
         // Student
         // 0-id, 1-nrmatriceal, 2-serie, 3-grupa
         if (rol.equals("Student")) {
-            dateSubclasa =
-                csvManager.findRow(
-                    DB_DIR + File.separator + "studenti.csv",
-                    "id",
-                    userId
-                );
+            dateSubclasa = csvManager.findRow(
+                DB_DIR + File.separator + "studenti.csv",
+                "id",
+                userId
+            );
             if (dateSubclasa == null) {
                 return new Utilizator(
                     userId,
@@ -73,12 +72,11 @@ class Autentificare {
                 grupa
             );
         } else if (rol.equals("Secretar")) {
-            dateSubclasa =
-                csvManager.findRow(
-                    DB_DIR + File.separator + "secretari.csv",
-                    "id",
-                    userId
-                );
+            dateSubclasa = csvManager.findRow(
+                DB_DIR + File.separator + "secretari.csv",
+                "id",
+                userId
+            );
             if (dateSubclasa == null) {
                 return new Utilizator(
                     userId,
@@ -106,12 +104,11 @@ class Autentificare {
                 programPublic
             );
         } else if (rol.equals("Decan")) {
-            dateSubclasa =
-                csvManager.findRow(
-                    DB_DIR + File.separator + "decani.csv",
-                    "id",
-                    userId
-                );
+            dateSubclasa = csvManager.findRow(
+                DB_DIR + File.separator + "decani.csv",
+                "id",
+                userId
+            );
             if (dateSubclasa == null) {
                 return new Utilizator(
                     userId,
