@@ -165,7 +165,7 @@ public class CsvManager {
         return -1;
     }
 
-    private static char detectDelimiter(String line) {
+    public static char detectDelimiter(String line) {
         int commas = countDelimiter(line, ',');
         int semicolons = countDelimiter(line, ';');
         int tabs = countDelimiter(line, '\t');
@@ -200,7 +200,7 @@ public class CsvManager {
         return count;
     }
 
-    private static String[] parseCsvLine(String line, char delimiter) {
+    public static String[] parseCsvLine(String line, char delimiter) {
         List<String> fields = new ArrayList<>();
         StringBuilder current = new StringBuilder();
         boolean inQuotes = false;

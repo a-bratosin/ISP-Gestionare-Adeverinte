@@ -29,6 +29,45 @@ class Autentificare {
         return login(email, parola);
     }
 
+    public static Utilizator getUserById(String userId) {
+        String[] dateDeBaza = csvManager.findRow(
+            DB_DIR + File.separator + "utilizatori.csv",
+            "userID",
+            userId
+        );
+
+        if (dateDeBaza == null) {
+            return null;
+        }
+
+        String rol = dateDeBaza[6];
+        String[] dateSubclasa = null;
+
+        if (rol.equals("Student")) {
+            dateSubclasa = csvManager.findRow(
+                DB_DIR + File.separator + "studenti.csv",
+                "id",
+                userId
+            );
+            return new Student(dateDeBaza, dateSubclasa);
+        } else if (rol.equals("Secretar")) {
+            dateSubclasa = csvManager.findRow(
+                DB_DIR + File.separator + "secretari.csv",
+                "id",
+                userId
+            );
+            return new SecretarDeAn(dateDeBaza, dateSubclasa);
+        } else if (rol.equals("Decan")) {
+            dateSubclasa = csvManager.findRow(
+                DB_DIR + File.separator + "decani.csv",
+                "id",
+                userId
+            );
+            return new Decan(dateDeBaza, dateSubclasa);
+        }
+        return new Utilizator(dateDeBaza);
+    }
+
     public static Utilizator login(String email, String parola) {
         // indicii din csv:
         // 0 - id, 1- nume, 2-prenume, 3-telefon, 4-email, 5-parola, 6-rol,

@@ -16,8 +16,11 @@ public class Main {
         if (user instanceof Student) {
             Student student = (Student) user;
             student.incarcareAdeverinta(scanner);
+        } else if (user instanceof SecretarDeAn) {
+            SecretarDeAn secretar = (SecretarDeAn) user;
+            secretar.valideazaCerere(scanner);
         } else {
-            System.out.println("Doar studentii pot incarca adeverinte.");
+            System.out.println("Rolul utilizatorului nu are actiuni implementate in Main.");
         }
     }
 }

@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 public class SecretarDeAn extends Utilizator {
     private int an;
     private String programDeLucru;
@@ -35,8 +39,55 @@ public class SecretarDeAn extends Utilizator {
             (secretarEntry != null && secretarEntry.length > 3) ? secretarEntry[3] : ""
         );
     }
-    public void valideazaCerere(){
-        return; //TODO
+
+    public void valideazaCerere() {
+        valideazaCerere(new Scanner(System.in));
+    }
+
+    public void valideazaCerere(Scanner scanner) {
+        Adeverinta[] nevalidate = Adeverinta.get_nevalidate();
+        List<Adeverinta> deValidat = new ArrayList<>();
+        
+        System.out.println("Cererile de adeverinta pentru anul " + this.an + ":");
+        for (Adeverinta a : nevalidate) {
+            if (a.getStudentEmitator() != null && a.getStudentEmitator().getAn() == this.an) {
+                deValidat.add(a);
+            }
+        }
+        
+        if (deValidat.isEmpty()) {
+            System.out.println("Nu exista cereri noi.");
+            return;
+        }
+        
+        for (int i = 0; i < deValidat.size(); i++) {
+            Adeverinta a = deValidat.get(i);
+            System.out.println(i + " - " + a.getStudentEmitator().getNume() + " " + a.getStudentEmitator().getPrenume());
+        }
+        
+        System.out.print("Selectati adeverinta (sau -1 pentru iesire): ");
+        if (!scanner.hasNextInt()) {
+            scanner.next();
+            return;
+        }
+        int choice = scanner.nextInt();
+        if (scanner.hasNextLine()) scanner.nextLine(); // consume newline
+        
+        if (choice >= 0 && choice < deValidat.size()) {
+            Adeverinta selectata = deValidat.get(choice);
+            selectata.vizualizareAdeverinta();
+            
+            System.out.print("Validati aceasta adeverinta? (y/n): ");
+            String ans = scanner.nextLine().trim();
+            if (ans.equalsIgnoreCase("y")) {
+                selectata.SetStareCerere(StareCerere.trimisaLaDecan);
+                selectata.SetSecretarValidator(this);
+                selectata.updateInCsv();
+                System.out.println("Adeverinta a fost validata.");
+            } else {
+                System.out.println("Adeverinta nu a fost validata.");
+            }
+        }
     }
 
     public void respingereCerere(){

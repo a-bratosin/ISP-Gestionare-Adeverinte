@@ -51,6 +51,11 @@ public class Student extends Utilizator {
         );
     }
 
+    public int getAn() {
+        // A doua cifra a variabilei grupa (ex: 312 -> 1, 322 -> 2)
+        return (this.grupa / 10) % 10;
+    }
+
     private String pseudoHash(String input) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
