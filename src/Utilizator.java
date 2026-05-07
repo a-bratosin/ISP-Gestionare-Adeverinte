@@ -76,14 +76,10 @@ public class Utilizator {
         this.parola = parola;
     }
 
-    //<<<<<<< HEAD
-
-    //=======
     void setId(String id) {
         this.id = id;
     }
 
-    //>>>>>>> b6b2b2e1805c20b82ec455178327ace092b4f2f8
     public void modificareDate() {
         // Implementation for modifying user data
     }

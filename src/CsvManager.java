@@ -63,6 +63,21 @@ public class CsvManager {
         }
     }
 
+    public static String csvEscape(String value) {
+        if (value == null) {
+            return "";
+        }
+        boolean needsQuotes =
+            value.contains(",") ||
+            value.contains("\"") ||
+            value.contains("\n") ||
+            value.contains("\r");
+        if (!needsQuotes) {
+            return value;
+        }
+        return "\"" + value.replace("\"", "\"\"") + "\"";
+    }
+
     /**
      * Caută toate rândurile dintr-un fișier CSV unde valoarea din coloana dată
      * (identificată după numele din header) este egală cu {@code value}.

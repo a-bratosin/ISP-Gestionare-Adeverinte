@@ -3,12 +3,31 @@
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Scanner;
 import javax.imageio.ImageIO;
 
 class Autentificare {
 
     private static CsvManager csvManager = new CsvManager();
     private static final String DB_DIR = "db";
+
+    public static Utilizator login(Scanner scanner) {
+        System.out.print("Email: ");
+        if (!scanner.hasNextLine()) {
+            System.out.println("Nu s-a primit email. Bye!");
+            return null;
+        }
+        String email = scanner.nextLine().trim();
+
+        System.out.print("Parola: ");
+        if (!scanner.hasNextLine()) {
+            System.out.println("Nu s-a primit parola. Bye!");
+            return null;
+        }
+        String parola = scanner.nextLine().trim();
+
+        return login(email, parola);
+    }
 
     public static Utilizator login(String email, String parola) {
         // indicii din csv:
@@ -44,21 +63,20 @@ class Autentificare {
                 "id",
                 userId
             );
-            if (dateSubclasa == null) {
-                return new Utilizator(
-                    userId,
-                    nume,
-                    prenume,
-                    telefon,
-                    email,
-                    parola
-                );
-            }
 
-            // Autentificare is now responsible for data type conversion
-            int nrMatriceal = Integer.parseInt(dateSubclasa[1]);
-            String serie = dateSubclasa[2];
-            int grupa = Integer.parseInt(dateSubclasa[3]);
+            int nrMatriceal = 0;
+            String serie = "";
+            int grupa = 0;
+
+            if (dateSubclasa != null && dateSubclasa.length >= 4) {
+                try {
+                    nrMatriceal = Integer.parseInt(dateSubclasa[1]);
+                    serie = dateSubclasa[2];
+                    grupa = Integer.parseInt(dateSubclasa[3]);
+                } catch (NumberFormatException e) {
+                    System.err.println("Eroare format date student: " + userId);
+                }
+            }
 
             return new Student(
                 userId,
@@ -77,20 +95,20 @@ class Autentificare {
                 "id",
                 userId
             );
-            if (dateSubclasa == null) {
-                return new Utilizator(
-                    userId,
-                    nume,
-                    prenume,
-                    telefon,
-                    email,
-                    parola
-                );
-            }
 
-            int an = Integer.parseInt(dateSubclasa[1]);
-            String programDeLucru = dateSubclasa[2];
-            String programPublic = dateSubclasa[3];
+            int an = 0;
+            String programDeLucru = "";
+            String programPublic = "";
+
+            if (dateSubclasa != null && dateSubclasa.length >= 4) {
+                try {
+                    an = Integer.parseInt(dateSubclasa[1]);
+                    programDeLucru = dateSubclasa[2];
+                    programPublic = dateSubclasa[3];
+                } catch (NumberFormatException e) {
+                    System.err.println("Eroare format date secretar: " + userId);
+                }
+            }
 
             return new SecretarDeAn(
                 userId,
@@ -109,26 +127,20 @@ class Autentificare {
                 "id",
                 userId
             );
-            if (dateSubclasa == null) {
-                return new Utilizator(
-                    userId,
-                    nume,
-                    prenume,
-                    telefon,
-                    email,
-                    parola
-                );
-            }
 
-            BufferedImage semnatura;
-            try {
-                semnatura = ImageIO.read(new File(dateSubclasa[1]));
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
+            BufferedImage semnatura = null;
+            String facultate = "";
+            String idMandat = "";
+
+            if (dateSubclasa != null && dateSubclasa.length >= 4) {
+                try {
+                    semnatura = ImageIO.read(new File(dateSubclasa[1]));
+                } catch (IOException e) {
+                    System.err.println("Eroare incarcare semnatura decan: " + userId);
+                }
+                facultate = dateSubclasa[2];
+                idMandat = dateSubclasa[3];
             }
-            String facultate = dateSubclasa[2];
-            String idMandat = dateSubclasa[3];
 
             return new Decan(
                 userId,
