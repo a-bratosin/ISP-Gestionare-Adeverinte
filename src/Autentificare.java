@@ -49,111 +49,32 @@ class Autentificare {
         }
 
         String userId = dateDeBaza[0];
-        String nume = dateDeBaza[1];
-        String prenume = dateDeBaza[2];
-        String telefon = dateDeBaza[3];
         String rol = dateDeBaza[6];
         String[] dateSubclasa = null;
 
         // Student
-        // 0-id, 1-nrmatriceal, 2-serie, 3-grupa
         if (rol.equals("Student")) {
             dateSubclasa = csvManager.findRow(
                 DB_DIR + File.separator + "studenti.csv",
                 "id",
                 userId
             );
-
-            int nrMatriceal = 0;
-            String serie = "";
-            int grupa = 0;
-
-            if (dateSubclasa != null && dateSubclasa.length >= 4) {
-                try {
-                    nrMatriceal = Integer.parseInt(dateSubclasa[1]);
-                    serie = dateSubclasa[2];
-                    grupa = Integer.parseInt(dateSubclasa[3]);
-                } catch (NumberFormatException e) {
-                    System.err.println("Eroare format date student: " + userId);
-                }
-            }
-
-            return new Student(
-                userId,
-                nume,
-                prenume,
-                telefon,
-                email,
-                parola,
-                nrMatriceal,
-                serie,
-                grupa
-            );
+            return new Student(dateDeBaza, dateSubclasa);
         } else if (rol.equals("Secretar")) {
             dateSubclasa = csvManager.findRow(
                 DB_DIR + File.separator + "secretari.csv",
                 "id",
                 userId
             );
-
-            int an = 0;
-            String programDeLucru = "";
-            String programPublic = "";
-
-            if (dateSubclasa != null && dateSubclasa.length >= 4) {
-                try {
-                    an = Integer.parseInt(dateSubclasa[1]);
-                    programDeLucru = dateSubclasa[2];
-                    programPublic = dateSubclasa[3];
-                } catch (NumberFormatException e) {
-                    System.err.println("Eroare format date secretar: " + userId);
-                }
-            }
-
-            return new SecretarDeAn(
-                userId,
-                nume,
-                prenume,
-                telefon,
-                email,
-                parola,
-                an,
-                programDeLucru,
-                programPublic
-            );
+            return new SecretarDeAn(dateDeBaza, dateSubclasa);
         } else if (rol.equals("Decan")) {
             dateSubclasa = csvManager.findRow(
                 DB_DIR + File.separator + "decani.csv",
                 "id",
                 userId
             );
-
-            BufferedImage semnatura = null;
-            String facultate = "";
-            String idMandat = "";
-
-            if (dateSubclasa != null && dateSubclasa.length >= 4) {
-                try {
-                    semnatura = ImageIO.read(new File(dateSubclasa[1]));
-                } catch (IOException e) {
-                    System.err.println("Eroare incarcare semnatura decan: " + userId);
-                }
-                facultate = dateSubclasa[2];
-                idMandat = dateSubclasa[3];
-            }
-
-            return new Decan(
-                userId,
-                nume,
-                prenume,
-                telefon,
-                email,
-                parola,
-                semnatura,
-                facultate,
-                idMandat
-            );
+            return new Decan(dateDeBaza, dateSubclasa);
         }
-        return null;
+        return new Utilizator(dateDeBaza);
     }
 }

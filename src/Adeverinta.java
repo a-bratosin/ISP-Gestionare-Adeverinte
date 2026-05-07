@@ -3,6 +3,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -93,9 +94,27 @@ public class Adeverinta {
         SecretarDeAn secretarValidator,
         Decan decanSemnatar
     ) {
-        this.studentEmitator = studentEmitator;
-        this.secretarValidator = secretarValidator;
-        this.decanSemnatar = decanSemnatar;
+        this(
+            (entry != null && entry.length > 1 && entry[1] != null && !entry[1].isEmpty())
+                ? Date.from(Instant.parse(entry[1]))
+                : null,
+            (entry != null && entry.length > 2 && entry[2] != null && !entry[2].isEmpty())
+                ? Date.from(Instant.parse(entry[2]))
+                : null,
+            (entry != null && entry.length > 3 && entry[3] != null && !entry[3].isEmpty())
+                ? StareCerere.valueOf(entry[3])
+                : null,
+            (entry != null && entry.length > 4 && entry[4] != null && !entry[4].isEmpty())
+                ? CategoriiAdeverinte.valueOf(entry[4])
+                : null,
+            (entry != null && entry.length > 5 && entry[5] != null) ? entry[5] : "",
+            studentEmitator,
+            secretarValidator,
+            decanSemnatar
+        );
+        if (entry != null && entry.length > 6 && entry[6] != null) {
+            this.path = entry[6];
+        }
     }
 
     public static Adeverinta[] get_nevalidate() {

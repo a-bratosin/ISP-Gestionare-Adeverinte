@@ -32,6 +32,17 @@ public class Utilizator {
         this.parola = parola;
     }
 
+    public Utilizator(String[] entry) {
+        this(
+            (entry != null && entry.length > 0) ? entry[0] : "",
+            (entry != null && entry.length > 1) ? entry[1] : "",
+            (entry != null && entry.length > 2) ? entry[2] : "",
+            (entry != null && entry.length > 3) ? entry[3] : "",
+            (entry != null && entry.length > 4) ? entry[4] : "",
+            (entry != null && entry.length > 5) ? entry[5] : ""
+        );
+    }
+
     String getNume() {
         return nume;
     }

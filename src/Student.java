@@ -33,6 +33,24 @@ public class Student extends Utilizator {
         this.grupa = grupa;
     }
 
+    public Student(String[] baseEntry, String[] studentEntry) {
+        this(
+            (baseEntry != null && baseEntry.length > 0) ? baseEntry[0] : "",
+            (baseEntry != null && baseEntry.length > 1) ? baseEntry[1] : "",
+            (baseEntry != null && baseEntry.length > 2) ? baseEntry[2] : "",
+            (baseEntry != null && baseEntry.length > 3) ? baseEntry[3] : "",
+            (baseEntry != null && baseEntry.length > 4) ? baseEntry[4] : "",
+            (baseEntry != null && baseEntry.length > 5) ? baseEntry[5] : "",
+            (studentEntry != null && studentEntry.length > 1 && !studentEntry[1].isEmpty())
+                ? Integer.parseInt(studentEntry[1])
+                : 0,
+            (studentEntry != null && studentEntry.length > 2) ? studentEntry[2] : "",
+            (studentEntry != null && studentEntry.length > 3 && !studentEntry[3].isEmpty())
+                ? Integer.parseInt(studentEntry[3])
+                : 0
+        );
+    }
+
     private String pseudoHash(String input) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
