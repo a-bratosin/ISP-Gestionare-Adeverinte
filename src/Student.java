@@ -7,7 +7,9 @@ import java.nio.file.StandardOpenOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 public class Student extends Utilizator {
@@ -189,5 +191,41 @@ public class Student extends Utilizator {
 
     public  Adeverinta descarcareAdeverinta(){
         return null;
+    }
+
+    public void vizualizareStatusAdeverinte(Scanner scanner) {
+        List<Adeverinta> toate = Adeverinta.get_toate();
+        List<Adeverinta> aleMele = new ArrayList<>();
+        
+        for (Adeverinta a : toate) {
+            if (a.getStudentEmitator() != null && a.getStudentEmitator().getId().equals(this.getId())) {
+                aleMele.add(a);
+            }
+        }
+
+        if (aleMele.isEmpty()) {
+            System.out.println("Nu aveti nicio cerere depusa.");
+            return;
+        }
+
+        // Sortare invers cronologica (dupa dataTrimitere)
+        aleMele.sort((a1, a2) -> a2.getDataTrimitere().compareTo(a1.getDataTrimitere()));
+
+        System.out.println("--- Statusul cererilor dumneavoastra ---");
+        for (int i = 0; i < aleMele.size(); i++) {
+            Adeverinta a = aleMele.get(i);
+            System.out.println(i + " - [" + a.getDataTrimitere() + "] " + a.getCategorieCerere() + " -> STARE: " + a.getStareCerere());
+        }
+
+        System.out.print("Alegeti o cerere pentru detalii (sau -1 pentru inapoi): ");
+        int choice = -1;
+        if (scanner.hasNextInt()) choice = scanner.nextInt();
+        if (scanner.hasNextLine()) scanner.nextLine();
+
+        if (choice >= 0 && choice < aleMele.size()) {
+            aleMele.get(choice).vizualizareAdeverinta();
+            System.out.println("Apasati Enter pentru a reveni la meniu...");
+            if (scanner.hasNextLine()) scanner.nextLine();
+        }
     }
 }

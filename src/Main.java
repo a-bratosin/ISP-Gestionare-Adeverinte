@@ -33,28 +33,67 @@ public class Main {
 
         System.out.println("Autentificat ca: " + user.getNume() + " " + user.getPrenume());
 
-        if (user instanceof Student) {
-            Student student = (Student) user;
-            student.incarcareAdeverinta(scanner);
-        } else if (user instanceof SecretarDeAn) {
-            SecretarDeAn secretar = (SecretarDeAn) user;
-            secretar.valideazaCerere(scanner);
-        } else if (user instanceof Decan) {
-            Decan decan = (Decan) user;
-            System.out.println("Meniu Decan:");
-            System.out.println("1 - Gestioneaza adeverinte");
-            System.out.print("Optiune: ");
-            int opt = 0;
-            if (scanner.hasNextInt()) opt = scanner.nextInt();
-            if (scanner.hasNextLine()) scanner.nextLine();
+        boolean running = true;
+        while (running) {
+            if (user instanceof Student) {
+                Student student = (Student) user;
+                System.out.println("\nMeniu Student:");
+                System.out.println("1 - Depune cerere noua");
+                System.out.println("2 - Vizualizeaza status cereri");
+                System.out.println("0 - Iesire");
+                System.out.print("Optiune: ");
+                int opt = -1;
+                if (scanner.hasNextInt()) opt = scanner.nextInt();
+                if (scanner.hasNextLine()) scanner.nextLine();
 
-            if (opt == 1) {
-                decan.gestioneazaAdeverinte(scanner);
+                if (opt == 1) {
+                    student.incarcareAdeverinta(scanner);
+                } else if (opt == 2) {
+                    student.vizualizareStatusAdeverinte(scanner);
+                } else if (opt == 0) {
+                    running = false;
+                } else {
+                    System.out.println("Optiune invalida.");
+                }
+            } else if (user instanceof SecretarDeAn) {
+                SecretarDeAn secretar = (SecretarDeAn) user;
+                System.out.println("\nMeniu Secretar:");
+                System.out.println("1 - Valideaza cerere");
+                System.out.println("0 - Iesire");
+                System.out.print("Optiune: ");
+                int opt = -1;
+                if (scanner.hasNextInt()) opt = scanner.nextInt();
+                if (scanner.hasNextLine()) scanner.nextLine();
+
+                if (opt == 1) {
+                    secretar.valideazaCerere(scanner);
+                } else if (opt == 0) {
+                    running = false;
+                } else {
+                    System.out.println("Optiune invalida.");
+                }
+            } else if (user instanceof Decan) {
+                Decan decan = (Decan) user;
+                System.out.println("\nMeniu Decan:");
+                System.out.println("1 - Gestioneaza adeverinte");
+                System.out.println("0 - Iesire");
+                System.out.print("Optiune: ");
+                int opt = -1;
+                if (scanner.hasNextInt()) opt = scanner.nextInt();
+                if (scanner.hasNextLine()) scanner.nextLine();
+
+                if (opt == 1) {
+                    decan.gestioneazaAdeverinte(scanner);
+                } else if (opt == 0) {
+                    running = false;
+                } else {
+                    System.out.println("Optiune invalida.");
+                }
             } else {
-                System.out.println("Optiune invalida.");
+                System.out.println("Rolul utilizatorului nu are actiuni implementate in Main.");
+                running = false;
             }
-        } else {
-            System.out.println("Rolul utilizatorului nu are actiuni implementate in Main.");
         }
+        System.out.println("La revedere!");
     }
 }
