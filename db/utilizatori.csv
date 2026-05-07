@@ -1,3 +1,4 @@
 userID,nume,prenume,telefon,email,parola,rol,
 0,test,user,000000000,test@email.gg,01234,Student,
 1,secretar,test,111111111,sec@email.gg,5678,Secretar,
+2,Ionescu,Dan,0744111222,dan@email.ro,parola123,Student,

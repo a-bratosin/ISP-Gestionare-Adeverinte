@@ -3,6 +3,11 @@
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.util.List;
 import java.util.Scanner;
 import javax.imageio.ImageIO;
 
@@ -10,6 +15,102 @@ class Autentificare {
 
     private static CsvManager csvManager = new CsvManager();
     private static final String DB_DIR = "db";
+
+    public static void inregistrare(Scanner scanner) {
+        System.out.println("------- INREGISTRARE -------");
+        System.out.println("Selectati tipul de utilizator:");
+        System.out.println("1 - Student");
+        System.out.println("2 - Secretar");
+        System.out.print("Optiune: ");
+        
+        int tip = -1;
+        if (scanner.hasNextInt()) {
+            tip = scanner.nextInt();
+        }
+        if (scanner.hasNextLine()) scanner.nextLine(); // consume newline
+
+        if (tip != 1 && tip != 2) {
+            System.out.println("Optiune invalida.");
+            return;
+        }
+
+        System.out.print("Nume: ");
+        String nume = scanner.nextLine().trim();
+        System.out.print("Prenume: ");
+        String prenume = scanner.nextLine().trim();
+        System.out.print("Telefon: ");
+        String telefon = scanner.nextLine().trim();
+        System.out.print("Email: ");
+        String email = scanner.nextLine().trim();
+        System.out.print("Parola: ");
+        String parola = scanner.nextLine().trim();
+
+        // Get next ID
+        String nextId = "0";
+        try {
+            List<String> lines = Files.readAllLines(Path.of(DB_DIR, "utilizatori.csv"), StandardCharsets.UTF_8);
+            if (lines.size() > 1) {
+                String lastLine = lines.get(lines.size() - 1);
+                String lastId = lastLine.split(",")[0];
+                nextId = String.valueOf(Integer.parseInt(lastId) + 1);
+            }
+        } catch (IOException | NumberFormatException e) {
+            // keep "0" or handle error
+        }
+
+        String rol = (tip == 1) ? "Student" : "Secretar";
+        
+        // Save to utilizatori.csv
+        String baseRow = String.format("%s,%s,%s,%s,%s,%s,%s,\n", 
+            CsvManager.csvEscape(nextId),
+            CsvManager.csvEscape(nume),
+            CsvManager.csvEscape(prenume),
+            CsvManager.csvEscape(telefon),
+            CsvManager.csvEscape(email),
+            CsvManager.csvEscape(parola),
+            CsvManager.csvEscape(rol)
+        );
+
+        try {
+            Files.writeString(Path.of(DB_DIR, "utilizatori.csv"), baseRow, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
+            
+            if (tip == 1) {
+                System.out.print("Nr. Matriceal: ");
+                String nrMat = scanner.nextLine().trim();
+                System.out.print("Serie: ");
+                String serie = scanner.nextLine().trim();
+                System.out.print("Grupa: ");
+                String grupa = scanner.nextLine().trim();
+                
+                String studentRow = String.format("%s,%s,%s,%s\n",
+                    CsvManager.csvEscape(nextId),
+                    CsvManager.csvEscape(nrMat),
+                    CsvManager.csvEscape(serie),
+                    CsvManager.csvEscape(grupa)
+                );
+                Files.writeString(Path.of(DB_DIR, "studenti.csv"), studentRow, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
+            } else {
+                System.out.print("An gestionat: ");
+                String an = scanner.nextLine().trim();
+                System.out.print("Program de lucru: ");
+                String progL = scanner.nextLine().trim();
+                System.out.print("Program public: ");
+                String progP = scanner.nextLine().trim();
+
+                String secRow = String.format("%s,%s,%s,%s\n",
+                    CsvManager.csvEscape(nextId),
+                    CsvManager.csvEscape(an),
+                    CsvManager.csvEscape(progL),
+                    CsvManager.csvEscape(progP)
+                );
+                Files.writeString(Path.of(DB_DIR, "secretari.csv"), secRow, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
+            }
+            System.out.println("Inregistrare reusita! ID: " + nextId);
+        } catch (IOException e) {
+            System.err.println("Eroare la salvarea datelor.");
+            e.printStackTrace();
+        }
+    }
 
     public static Utilizator login(Scanner scanner) {
         System.out.print("Email: ");

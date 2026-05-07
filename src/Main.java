@@ -5,6 +5,26 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
+        System.out.println("Benvenuti!");
+        System.out.println("1 - Login");
+        System.out.println("2 - Inregistrare");
+        System.out.print("Alegere: ");
+        
+        int alegere = 0;
+        if (scanner.hasNextInt()) {
+            alegere = scanner.nextInt();
+        }
+        if (scanner.hasNextLine()) scanner.nextLine(); // consume newline
+
+        if (alegere == 2) {
+            Autentificare.inregistrare(scanner);
+            System.out.println("Acum va puteti loga.");
+            System.out.println("--------------------");
+        } else if (alegere != 1) {
+            System.out.println("Optiune invalida. Iesire.");
+            return;
+        }
+
         Utilizator user = Autentificare.login(scanner);
         if (user == null) {
             System.out.println("Autentificare esuata (email/parola gresite sau user inexistent).");
