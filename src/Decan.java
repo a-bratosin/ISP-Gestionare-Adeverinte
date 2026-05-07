@@ -1,10 +1,16 @@
-import java.awt.Image;
-import java.io.File;
 import java.io.IOException;
-import javax.imageio.ImageIO;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.security.InvalidKeyException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
+import java.util.Scanner;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 
 public class Decan extends Utilizator {
-    private Image semnatura;
     private String facultate;
     private String idMandat;
 
@@ -15,12 +21,10 @@ public class Decan extends Utilizator {
         String telefon,
         String email,
         String parola,
-        Image semnatura,
         String facultate,
         String idMandat
     ) {
         super(id, nume, prenume, telefon, email, parola);
-        this.semnatura = semnatura;
         this.facultate = facultate;
         this.idMandat = idMandat;
     }
@@ -33,23 +37,11 @@ public class Decan extends Utilizator {
             (baseEntry != null && baseEntry.length > 3) ? baseEntry[3] : "",
             (baseEntry != null && baseEntry.length > 4) ? baseEntry[4] : "",
             (baseEntry != null && baseEntry.length > 5) ? baseEntry[5] : "",
-            null, // semnatura temporary
             (decanEntry != null && decanEntry.length > 2) ? decanEntry[2] : "",
             (decanEntry != null && decanEntry.length > 3) ? decanEntry[3] : ""
         );
-
-        if (decanEntry != null && decanEntry.length > 1 && !decanEntry[1].isEmpty()) {
-            try {
-                this.semnatura = ImageIO.read(new File(decanEntry[1]));
-            } catch (IOException e) {
-                System.err.println("Eroare la incarcarea semnaturii decanului: " + decanEntry[1]);
-            }
-        }
     }
 
-    void setSemnatura(Image semnatura) {
-        this.semnatura = semnatura;
-    }
     void setFacultate(String facultate) {
         this.facultate = facultate;
     }
@@ -57,9 +49,6 @@ public class Decan extends Utilizator {
         this.idMandat = idMandat;
     }
 
-    Image getSemnatura() {
-        return semnatura;
-    }
     String getFacultate() {
         return facultate;
     }
@@ -67,11 +56,72 @@ public class Decan extends Utilizator {
         return idMandat;
     }
 
-    public void semneazaAdeverinta() {
-        // Implementation for signing certificate
+    public void gestioneazaAdeverinte(Scanner scanner) {
+        Adeverinta[] nesemnate = Adeverinta.get_nesemnate();
+        if (nesemnate.length == 0) {
+            System.out.println("Nu exista adeverinte de gestionat.");
+            return;
+        }
+
+        System.out.println("--- Adeverinte trimise la decan ---");
+        for (int i = 0; i < nesemnate.length; i++) {
+            System.out.println(i + " - Student: " + nesemnate[i].getStudentEmitator().getNume() + " " + nesemnate[i].getStudentEmitator().getPrenume() + " (" + nesemnate[i].getCategorieCerere() + ")");
+        }
+
+        System.out.print("Alegeti adeverinta (sau -1 pt renuntare): ");
+        int choice = -1;
+        if (scanner.hasNextInt()) choice = scanner.nextInt();
+        if (scanner.hasNextLine()) scanner.nextLine();
+
+        if (choice < 0 || choice >= nesemnate.length) return;
+
+        Adeverinta sel = nesemnate[choice];
+        sel.vizualizareAdeverinta();
+
+        System.out.println("Actiuni disponibile:");
+        System.out.println("1 - Semneaza (Accepta)");
+        System.out.println("2 - Trimite inapoi la secretar (Respinge)");
+        System.out.print("Alegere: ");
+        
+        int actiune = 0;
+        if (scanner.hasNextInt()) actiune = scanner.nextInt();
+        if (scanner.hasNextLine()) scanner.nextLine();
+
+        if (actiune == 1) {
+            System.out.print("Introduceti parola pentru semnare: ");
+            String pwd = scanner.nextLine();
+
+            try {
+                String content = Files.readString(Path.of(sel.getPath()), StandardCharsets.UTF_8);
+                String signature = generateSignature(content, pwd);
+                
+                String signedContent = content + "\n\n[SEMNATURA DIGITALA DECAN: " + signature + "]\n[DECAN: " + this.getNume() + " " + this.getPrenume() + "]\n";
+                Files.writeString(Path.of(sel.getPath()), signedContent, StandardCharsets.UTF_8);
+
+                sel.SetStareCerere(StareCerere.finalizata);
+                sel.updateInCsv();
+                System.out.println("Adeverinta a fost semnata cu succes!");
+
+            } catch (Exception e) {
+                System.err.println("Eroare la semnarea adeverintei: " + e.getMessage());
+            }
+        } else if (actiune == 2) {
+            sel.SetStareCerere(StareCerere.incarcataDeStudent); // Trimitere inapoi la secretar
+            sel.updateInCsv();
+            System.out.println("Adeverinta a fost retrimisa catre secretar.");
+        } else {
+            System.out.println("Actiune anulata.");
+        }
     }
 
-    public void anuleazaAdeverinta() {
-        // Implementation for canceling certificate
+    private String generateSignature(String data, String key) throws NoSuchAlgorithmException, InvalidKeyException {
+        // Simple HMAC approach with password as key
+        Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
+        SecretKeySpec secret_key = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
+        sha256_HMAC.init(secret_key);
+
+        return Base64.getEncoder().encodeToString(sha256_HMAC.doFinal(data.getBytes(StandardCharsets.UTF_8)));
     }
+
+    // Removed separate methods to keep it clean as they are now merged
 }

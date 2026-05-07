@@ -39,6 +39,20 @@ public class Main {
         } else if (user instanceof SecretarDeAn) {
             SecretarDeAn secretar = (SecretarDeAn) user;
             secretar.valideazaCerere(scanner);
+        } else if (user instanceof Decan) {
+            Decan decan = (Decan) user;
+            System.out.println("Meniu Decan:");
+            System.out.println("1 - Gestioneaza adeverinte");
+            System.out.print("Optiune: ");
+            int opt = 0;
+            if (scanner.hasNextInt()) opt = scanner.nextInt();
+            if (scanner.hasNextLine()) scanner.nextLine();
+
+            if (opt == 1) {
+                decan.gestioneazaAdeverinte(scanner);
+            } else {
+                System.out.println("Optiune invalida.");
+            }
         } else {
             System.out.println("Rolul utilizatorului nu are actiuni implementate in Main.");
         }

@@ -21,6 +21,7 @@ class Autentificare {
         System.out.println("Selectati tipul de utilizator:");
         System.out.println("1 - Student");
         System.out.println("2 - Secretar");
+        System.out.println("3 - Decan");
         System.out.print("Optiune: ");
         
         int tip = -1;
@@ -29,7 +30,7 @@ class Autentificare {
         }
         if (scanner.hasNextLine()) scanner.nextLine(); // consume newline
 
-        if (tip != 1 && tip != 2) {
+        if (tip != 1 && tip != 2 && tip != 3) {
             System.out.println("Optiune invalida.");
             return;
         }
@@ -58,7 +59,7 @@ class Autentificare {
             // keep "0" or handle error
         }
 
-        String rol = (tip == 1) ? "Student" : "Secretar";
+        String rol = (tip == 1) ? "Student" : (tip == 2) ? "Secretar" : "Decan";
         
         // Save to utilizatori.csv
         String baseRow = String.format("%s,%s,%s,%s,%s,%s,%s,\n", 
@@ -89,7 +90,7 @@ class Autentificare {
                     CsvManager.csvEscape(grupa)
                 );
                 Files.writeString(Path.of(DB_DIR, "studenti.csv"), studentRow, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
-            } else {
+            } else if (tip == 2) {
                 System.out.print("An gestionat: ");
                 String an = scanner.nextLine().trim();
                 System.out.print("Program de lucru: ");
@@ -104,6 +105,18 @@ class Autentificare {
                     CsvManager.csvEscape(progP)
                 );
                 Files.writeString(Path.of(DB_DIR, "secretari.csv"), secRow, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
+            } else {
+                System.out.print("Facultate: ");
+                String fac = scanner.nextLine().trim();
+                System.out.print("ID Mandat: ");
+                String idM = scanner.nextLine().trim();
+
+                String decRow = String.format("%s,,%s,%s\n",
+                    CsvManager.csvEscape(nextId),
+                    CsvManager.csvEscape(fac),
+                    CsvManager.csvEscape(idM)
+                );
+                Files.writeString(Path.of(DB_DIR, "decani.csv"), decRow, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
             }
             System.out.println("Inregistrare reusita! ID: " + nextId);
         } catch (IOException e) {
