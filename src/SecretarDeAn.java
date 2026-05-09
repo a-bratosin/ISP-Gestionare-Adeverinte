@@ -75,7 +75,7 @@ public class SecretarDeAn extends Utilizator {
         
         if (choice >= 0 && choice < deValidat.size()) {
             Adeverinta selectata = deValidat.get(choice);
-            selectata.vizualizareAdeverinta();
+            selectata.vizualizareAdeverinta(this);
             
             System.out.print("Validati aceasta adeverinta? (y/n): ");
             String ans = scanner.nextLine().trim();

@@ -192,6 +192,8 @@ public class Student extends Utilizator {
                         CsvManager.csvEscape(adeverinta.getComentariu()) +
                         "," +
                         CsvManager.csvEscape(adeverinta.getPath()) +
+                        "," +
+                        CsvManager.csvEscape(adeverinta.getMotivRespingere()) +
                         "\n";
 
                 Files.writeString(
@@ -251,7 +253,7 @@ public class Student extends Utilizator {
         if (scanner.hasNextLine()) scanner.nextLine();
 
         if (choice >= 0 && choice < aleMele.size()) {
-            aleMele.get(choice).vizualizareAdeverinta();
+            aleMele.get(choice).vizualizareAdeverinta(this);
             System.out.println("Apasati Enter pentru a reveni la meniu...");
             if (scanner.hasNextLine()) scanner.nextLine();
         }

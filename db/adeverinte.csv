@@ -1,5 +1,6 @@
-userId,dataTrimitere,dataFinalizare,stareCerere,categorieCerere,comentariu,path
-0,2026-05-06T14:33:55.426Z,,finalizata,adeverintaStudent,,db/adeverinte/27e33fe833f5.adeverinta
-0,2026-05-06T15:56:50.699Z,,incarcataDeStudent,adeverintaMaster,,db/adeverinte/ec981ac942fa.adeverinta
-0,2026-05-07T06:51:56.623Z,,incarcataDeStudent,adeverintaStudent,,db/adeverinte/1bfde78ca0e3.adeverinta
-0,2026-05-07T07:13:12.246Z,,trimisaLaDecan,adeverintaStudent,,db/adeverinte/446732acf49f.adeverinta
+userId,dataTrimitere,dataFinalizare,stareCerere,categorieCerere,comentariu,path,motivRespingere
+0,2026-05-06T14:33:55.426Z,,finalizata,adeverintaStudent,,db/adeverinte/27e33fe833f5.adeverinta,
+0,2026-05-06T15:56:50.699Z,,incarcataDeStudent,adeverintaMaster,,db/adeverinte/ec981ac942fa.adeverinta,
+0,2026-05-07T06:51:56.623Z,,incarcataDeStudent,adeverintaStudent,,db/adeverinte/1bfde78ca0e3.adeverinta,
+0,2026-05-07T07:13:12.246Z,,trimisaLaDecan,adeverintaStudent,,db/adeverinte/446732acf49f.adeverinta,
+0,2026-05-09T20:36:28.690Z,,incarcataDeStudent,adeverintaStudent,Motiv student: am nevoie de ea.,db/adeverinte/sim_test.adeverinta,Lipseste stampila de la biblioteca.

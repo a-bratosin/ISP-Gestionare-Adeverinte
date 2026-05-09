@@ -23,6 +23,7 @@ public class Adeverinta {
     private StareCerere stareCerere;
     private CategoriiAdeverinte categorieCerere;
     private String comentariu;
+    private String motivRespingere;
     private Student studentEmitator;
     private SecretarDeAn secretarValidator;
     private Decan decanSemnatar;
@@ -42,6 +43,7 @@ public class Adeverinta {
             stareCerere,
             categorieCerere,
             comentariu,
+            "",
             studentEmitator,
             null,
             null
@@ -64,6 +66,7 @@ public class Adeverinta {
             stareCerere,
             categorieCerere,
             comentariu,
+            "",
             studentEmitator,
             secretarValidator,
             null
@@ -77,6 +80,7 @@ public class Adeverinta {
         StareCerere stareCerere,
         CategoriiAdeverinte categorieCerere,
         String comentariu,
+        String motivRespingere,
         Student studentEmitator,
         SecretarDeAn secretarValidator,
         Decan decanSemnatar
@@ -87,6 +91,7 @@ public class Adeverinta {
         this.stareCerere = stareCerere;
         this.categorieCerere = categorieCerere;
         this.comentariu = comentariu;
+        this.motivRespingere = (motivRespingere != null) ? motivRespingere : "";
         this.studentEmitator = studentEmitator;
         this.secretarValidator = secretarValidator;
         this.decanSemnatar = decanSemnatar;
@@ -112,6 +117,7 @@ public class Adeverinta {
                 ? CategoriiAdeverinte.valueOf(entry[4])
                 : null,
             (entry != null && entry.length > 5 && entry[5] != null) ? entry[5] : "",
+            (entry != null && entry.length > 7 && entry[7] != null) ? entry[7] : "",
             studentEmitator,
             secretarValidator,
             decanSemnatar
@@ -199,15 +205,19 @@ public class Adeverinta {
                CsvManager.csvEscape(stareCerere == null ? "" : stareCerere.name()) + "," +
                CsvManager.csvEscape(categorieCerere == null ? "" : categorieCerere.name()) + "," +
                CsvManager.csvEscape(comentariu) + "," +
-               CsvManager.csvEscape(path);
+               CsvManager.csvEscape(path) + "," +
+               CsvManager.csvEscape(motivRespingere);
     }
 
-    public void vizualizareAdeverinta() {
+    public void vizualizareAdeverinta(Utilizator viewer) {
         System.out.println("------- VIZUALIZARE ADEVERINTA -------");
         System.out.println("Student: " + studentEmitator.getNume() + " " + studentEmitator.getPrenume());
         System.out.println("Data Trimitere: " + dataTrimitere);
         System.out.println("Categorie: " + categorieCerere);
         System.out.println("Stare: " + stareCerere);
+        if (viewer instanceof SecretarDeAn && motivRespingere != null && !motivRespingere.isEmpty()) {
+            System.out.println("Motiv Respingere Decan: " + motivRespingere);
+        }
         System.out.println("Continut:");
         try {
             String content = Files.readString(Path.of(this.path), StandardCharsets.UTF_8);
@@ -291,6 +301,14 @@ public class Adeverinta {
 
     void SetComentariu(String comentariu) {
         this.comentariu = comentariu;
+    }
+
+    public String getMotivRespingere() {
+        return motivRespingere;
+    }
+
+    public void setMotivRespingere(String motivRespingere) {
+        this.motivRespingere = motivRespingere;
     }
 
     public boolean complete() {
