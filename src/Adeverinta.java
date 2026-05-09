@@ -322,6 +322,15 @@ public class Adeverinta {
         Pattern myPattern = Pattern.compile("::[A-Za-z0-9_]+::");
         Map<String, String> valori = new HashMap<>();
 
+        if (studentEmitator != null) {
+            valori.put("nume", studentEmitator.getNume() + " " + studentEmitator.getPrenume());
+            valori.put("prenume", studentEmitator.getPrenume());
+            valori.put("grupa", String.valueOf(studentEmitator.getGrupa()));
+            valori.put("serie", studentEmitator.getSerie());
+            valori.put("nrMatriceal", String.valueOf(studentEmitator.getNrMatriceal()));
+        }
+        valori.put("data", new java.text.SimpleDateFormat("dd/MM/yyyy").format(new Date()));
+
         Matcher matcher = myPattern.matcher(continut);
         while (matcher.find()) {
             String token = matcher.group(); // ::label::

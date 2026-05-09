@@ -58,6 +58,18 @@ public class Student extends Utilizator {
         return (this.grupa / 10) % 10;
     }
 
+    public int getNrMatriceal() {
+        return nrMatriceal;
+    }
+
+    public String getSerie() {
+        return serie;
+    }
+
+    public int getGrupa() {
+        return grupa;
+    }
+
     private String pseudoHash(String input) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -91,6 +103,22 @@ public class Student extends Utilizator {
         if (scanner.hasNextLine()) {
             scanner.nextLine();
         }
+
+        String motiv = "";
+        while (true) {
+            System.out.print("Introduceti motivul cererii (max 100 caractere): ");
+            if (scanner.hasNextLine()) {
+                motiv = scanner.nextLine().trim();
+                if (!motiv.isEmpty() && motiv.length() < 100) {
+                    break;
+                } else if (motiv.isEmpty()) {
+                    System.out.println("Motivul nu poate fi gol!");
+                } else {
+                    System.out.println("Motivul este prea lung (maxim 100 caractere)!");
+                }
+            }
+        }
+        adeverinta.SetComentariu(motiv);
 
         if (adeverinta.complete(scanner)) {
             String isoDataTrimitere = DateTimeFormatter.ISO_INSTANT.format(
