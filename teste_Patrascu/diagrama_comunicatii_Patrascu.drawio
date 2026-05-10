@@ -10,30 +10,30 @@
         <mxCell id="student" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=16;" value="Student" vertex="1">
           <mxGeometry height="80" width="140" x="50" y="250" as="geometry" />
         </mxCell>
-        <mxCell id="secretary" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=16;" value="Secretary" vertex="1">
+        <mxCell id="secretary" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=16;" value="Secretară De An" vertex="1">
           <mxGeometry height="80" width="140" x="840" y="120" as="geometry" />
         </mxCell>
-        <mxCell id="dean" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=16;" value="Dean" vertex="1">
+        <mxCell id="dean" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=16;" value="Decan" vertex="1">
           <mxGeometry height="80" width="140" x="840" y="420" as="geometry" />
         </mxCell>
-        <mxCell id="e1" edge="1" parent="1" source="student" style="endArrow=classic;html=1;" target="system" value="1. Open dialog">
+        <mxCell id="e1" edge="1" parent="1" source="student" style="endArrow=classic;html=1;" target="system" value="1. Intră în cont">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e2" edge="1" parent="1" source="student" style="endArrow=classic;html=1;rounded=0;curved=1;" target="system" value="2. Fill adeverință">
+        <mxCell id="e2" edge="1" parent="1" source="student" style="endArrow=classic;html=1;rounded=0;curved=1;" target="system" value="2. Completează adeverință">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="340" y="390" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="e3" edge="1" parent="1" source="student" style="endArrow=classic;html=1;rounded=0;curved=1;" target="system" value="3. Check adeverințe status">
+        <mxCell id="e3" edge="1" parent="1" source="student" style="endArrow=classic;html=1;rounded=0;curved=1;" target="system" value="3. Verifică status adeverințe&amp;nbsp;">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="330" y="200" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="e4" edge="1" parent="1" source="system" style="endArrow=classic;html=1;rounded=0;curved=1;" target="student" value="&lt;div&gt;3.1. Show rejected/approved status&lt;/div&gt;">
+        <mxCell id="e4" edge="1" parent="1" source="system" style="endArrow=classic;html=1;rounded=0;curved=1;" target="student" value="&lt;div&gt;3.1. Arată statusul: acceptat/refuzat&lt;/div&gt;">
           <mxGeometry relative="1" x="-0.236" y="55" as="geometry">
             <mxPoint as="offset" />
             <Array as="points">
@@ -41,34 +41,34 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="e5" edge="1" parent="1" source="system" style="endArrow=classic;html=1;" target="secretary" value="2.2 Send adeverință">
+        <mxCell id="e5" edge="1" parent="1" source="system" style="endArrow=classic;html=1;" target="secretary" value="2.2 Trimite adeverință">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e6" edge="1" parent="1" source="secretary" style="endArrow=classic;html=1;strokeColor=#666666;rounded=0;curved=1;fillColor=#f5f5f5;" target="system" value="2.1. Check adeverințe list">
+        <mxCell id="e6" edge="1" parent="1" source="secretary" style="endArrow=classic;html=1;strokeColor=#666666;rounded=0;curved=1;fillColor=#f5f5f5;" target="system" value="2.1. Verifică lista de adeverințe">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="790" y="300" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="e7" edge="1" parent="1" source="secretary" style="endArrow=classic;html=1;rounded=0;curved=1;" target="system" value="2.3 Validate / Invalidate adeverință">
+        <mxCell id="e7" edge="1" parent="1" source="secretary" style="endArrow=classic;html=1;rounded=0;curved=1;" target="system" value="2.3 Validează / Invalidează adeverință">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="620" y="80" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="e8" edge="1" parent="1" source="system" style="endArrow=classic;html=1;" target="dean" value="2.3.2 Send validated adeverințe">
+        <mxCell id="e8" edge="1" parent="1" source="system" style="endArrow=classic;html=1;" target="dean" value="2.3.2 Trimite&amp;nbsp; adeverințe validate">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e9" edge="1" parent="1" source="dean" style="endArrow=classic;html=1;rounded=0;curved=1;" target="system" value="2.3.1. Check validated adeverințe">
+        <mxCell id="e9" edge="1" parent="1" source="dean" style="endArrow=classic;html=1;rounded=0;curved=1;" target="system" value="2.3.1. Verifică adeverințe validate">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="790" y="330" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="e10" edge="1" parent="1" source="dean" style="endArrow=classic;html=1;rounded=0;curved=1;" target="system" value="&lt;div&gt;2.3.2. Sign / Refuse adeverință&lt;/div&gt;">
+        <mxCell id="e10" edge="1" parent="1" source="dean" style="endArrow=classic;html=1;rounded=0;curved=1;" target="system" value="&lt;div&gt;2.3.3. Semnează/Refuză adeverință&lt;/div&gt;">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="620" y="510" />
