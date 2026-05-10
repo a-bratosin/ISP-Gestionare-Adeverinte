@@ -6,3 +6,5 @@
 1. task clean
 2. task build
 3. task run
+
+In caz ca nu exista task instalat, comenzile se gasesc in Taskfile.yml
