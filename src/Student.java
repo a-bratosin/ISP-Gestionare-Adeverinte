@@ -219,8 +219,69 @@ public class Student extends Utilizator {
         incarcareAdeverinta(new Scanner(System.in));
     }
 
-    public  Adeverinta descarcareAdeverinta(){
-        return null;
+    public void meniuVizualizareAdeverinta(Scanner scanner) {
+        boolean back = false;
+        while (!back) {
+            System.out.println("\n--- Vizualizare adeverinta ---");
+            System.out.println("1 - Descarcare adeverinta");
+            System.out.println("0 - Inapoi");
+            System.out.print("Optiune: ");
+            int opt = -1;
+            if (scanner.hasNextInt()) opt = scanner.nextInt();
+            if (scanner.hasNextLine()) scanner.nextLine();
+
+            if (opt == 1) {
+                descarcareAdeverinta(scanner);
+            } else if (opt == 0) {
+                back = true;
+            } else {
+                System.out.println("Optiune invalida.");
+            }
+        }
+    }
+
+    public void descarcareAdeverinta(Scanner scanner) {
+        List<Adeverinta> toate = Adeverinta.get_toate();
+        List<Adeverinta> finalized = new ArrayList<>();
+        for (Adeverinta a : toate) {
+            if (a.getStudentEmitator() != null && 
+                a.getStudentEmitator().getId().equals(this.getId()) &&
+                a.getStareCerere() == StareCerere.finalizata) {
+                finalized.add(a);
+            }
+        }
+
+        if (finalized.isEmpty()) {
+            System.out.println("Nu aveti nicio adeverinta finalizata pentru descarcare.");
+            return;
+        }
+
+        System.out.println("--- Adeverinte disponibile pentru descarcare ---");
+        for (int i = 0; i < finalized.size(); i++) {
+            Adeverinta a = finalized.get(i);
+            System.out.println(i + " - [" + a.getDataTrimitere() + "] " + a.getCategorieCerere());
+        }
+
+        System.out.print("Alegeti adeverinta (sau -1 pentru inapoi): ");
+        int choice = -1;
+        if (scanner.hasNextInt()) choice = scanner.nextInt();
+        if (scanner.hasNextLine()) scanner.nextLine();
+
+        if (choice >= 0 && choice < finalized.size()) {
+            Adeverinta selected = finalized.get(choice);
+            System.out.print("Introduceti numele fisierului de destinatie (ex: adeverinta.txt): ");
+            String destName = scanner.nextLine();
+            if (!destName.endsWith(".txt")) {
+                destName += ".txt";
+            }
+            
+            try {
+                Files.copy(Path.of(selected.getPath()), Path.of(destName), StandardCopyOption.REPLACE_EXISTING);
+                System.out.println("Adeverinta a fost descarcata cu succes sub numele: " + destName);
+            } catch (IOException e) {
+                System.out.println("Eroare la descarcare: " + e.getMessage());
+            }
+        }
     }
 
     public void vizualizareStatusAdeverinte(Scanner scanner) {

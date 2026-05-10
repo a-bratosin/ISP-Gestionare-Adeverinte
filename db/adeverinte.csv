@@ -45,7 +45,14 @@ userId,dataTrimitere,dataFinalizare,stareCerere,categorieCerere,comentariu,path,
 0,2026-05-10T10:44:47.198Z,,finalizata,adeverintaStudent,patrascu-approve-1778409887197,db/adeverinte/90dfcdc55425.adeverinta,
 0,2026-05-10T10:44:47.261Z,,incarcataDeStudent,adeverintaStudent,bratosin-refuse-1778409887261,db/adeverinte/9ac63830ff92.adeverinta,
 0,2026-05-10T10:44:47.289Z,,finalizata,adeverintaStudent,bratosin-confirm-1778409887288,db/adeverinte/ee754a4c897f.adeverinta,
+<<<<<<< HEAD
 0,2026-05-10T18:46:52.042Z,,incarcataDeStudent,adeverintaStudent,patrascu-refuse-1778438812014,db/adeverinte/558e7c26d935.adeverinta,Lipsa stampila biblioteca
 0,2026-05-10T18:46:52.162Z,,finalizata,adeverintaStudent,patrascu-approve-1778438812161,db/adeverinte/5a3917c85d4a.adeverinta,
 0,2026-05-10T18:46:52.259Z,,incarcataDeStudent,adeverintaStudent,bratosin-refuse-1778438812259,db/adeverinte/6c21694e120e.adeverinta,
 0,2026-05-10T18:46:52.305Z,,finalizata,adeverintaStudent,bratosin-confirm-1778438812305,db/adeverinte/96b3822493aa.adeverinta,
+=======
+0,2026-05-10T18:35:17.532Z,,incarcataDeStudent,adeverintaStudent,bratosin-refuse-1778438117486,db/adeverinte/fe643143af83.adeverinta,
+0,2026-05-10T18:35:17.778Z,,finalizata,adeverintaStudent,bratosin-confirm-1778438117777,db/adeverinte/b4061015bee5.adeverinta,
+0,2026-05-10T18:35:17.904Z,,incarcataDeStudent,adeverintaStudent,patrascu-refuse-1778438117903,db/adeverinte/3f171650e954.adeverinta,Lipsa stampila biblioteca
+0,2026-05-10T18:35:17.985Z,,finalizata,adeverintaStudent,patrascu-approve-1778438117985,db/adeverinte/3a8413e762e1.adeverinta,
+>>>>>>> 42e1879d56b17ef9ca18e642378788bc31e14dd1
