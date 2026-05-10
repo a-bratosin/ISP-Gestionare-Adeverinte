@@ -80,7 +80,9 @@ public class Decan extends Utilizator {
             );
         }
 
-        System.out.print("Alegeti adeverinta (sau -1 pt renuntare): ");
+        System.out.print(
+            "Alegeti adeverinta (sau -1 pt renuntare, default choice): "
+        );
         int choice = -1;
         if (scanner.hasNextInt()) choice = scanner.nextInt();
         if (scanner.hasNextLine()) scanner.nextLine();
@@ -108,8 +110,10 @@ public class Decan extends Utilizator {
                     Path.of(sel.getPath()),
                     StandardCharsets.UTF_8
                 );
+                // generare semnatura
                 String signature = generateSignature(content, pwd);
 
+                // semnatura propriu zisa
                 String signedContent =
                     content +
                     "\n\n[SEMNATURA DIGITALA DECAN: " +
@@ -125,6 +129,7 @@ public class Decan extends Utilizator {
                     StandardCharsets.UTF_8
                 );
 
+                // setare stare conform diagrama UML de stare
                 sel.SetStareCerere(StareCerere.finalizata);
                 sel.updateInCsv();
                 System.out.println("Adeverinta a fost semnata cu succes!");
@@ -134,10 +139,13 @@ public class Decan extends Utilizator {
                 );
             }
         } else if (actiune == 2) {
-            System.out.print("Introduceti motivul respingerii (optional, apasati Enter pt a lasa gol): ");
+            System.out.print(
+                "Introduceti motivul respingerii (optional, apasati Enter pt a lasa gol): "
+            );
             String motiv = scanner.nextLine().trim();
             sel.setMotivRespingere(motiv);
-            
+
+            // setare stare in conformitate cu dagrama UML de stare
             sel.SetStareCerere(StareCerere.incarcataDeStudent); // Trimitere inapoi la secretar
             sel.updateInCsv();
             System.out.println(

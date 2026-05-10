@@ -102,6 +102,7 @@ public class SecretarDeAn extends Utilizator {
             System.out.print("Validati aceasta adeverinta? (y/N): ");
             String ans = scanner.nextLine().trim();
             if (ans.equalsIgnoreCase("y")) {
+                // in conformitate cu UML stare
                 selectata.SetStareCerere(StareCerere.trimisaLaDecan);
                 selectata.SetSecretarValidator(this);
                 selectata.updateInCsv();
