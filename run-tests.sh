@@ -4,7 +4,11 @@ set -euo pipefail
 ROOT_DIR=$(cd "$(dirname "$0")" && pwd)
 LIB_DIR="$ROOT_DIR/lib"
 SRC_DIR="$ROOT_DIR/src"
-TEST_DIR="$ROOT_DIR/teste_Patrascu"
+# find any test folders named teste_*
+TEST_DIRS=()
+while IFS= read -r -d '' d; do
+  TEST_DIRS+=("$d")
+done < <(find "$ROOT_DIR" -maxdepth 1 -type d -name "teste_*" -print0)
 BIN_DIR="$ROOT_DIR/bin"
 
 if [ ! -d "$LIB_DIR" ]; then
@@ -22,7 +26,10 @@ mkdir -p "$BIN_DIR"
 
 echo "Compiling source and test classes..."
 SRC_FILES=$(find "$SRC_DIR" -name "*.java" 2>/dev/null || true)
-TEST_FILES=$(find "$TEST_DIR" -name "*.java" 2>/dev/null || true)
+TEST_FILES=""
+if [ ${#TEST_DIRS[@]} -gt 0 ]; then
+  TEST_FILES=$(find "${TEST_DIRS[@]}" -name "*.java" 2>/dev/null || true)
+fi
 
 if [ -z "$SRC_FILES" ] && [ -z "$TEST_FILES" ]; then
   echo "No .java files found under src/ or TEST/."
@@ -39,13 +46,17 @@ else
 fi
 
 if [ -n "$TEST_FILES" ]; then
-  find "$TEST_DIR" -name "*.java" >> "$TMP_LIST"
+  find "${TEST_DIRS[@]}" -name "*.java" >> "$TMP_LIST"
 fi
 
 javac -cp "$LIB_DIR/*" -d "$BIN_DIR" @"$TMP_LIST"
 
 echo "Discovering test classes..."
-mapfile -t TEST_CLASS_FILES < <(find "$TEST_DIR" -name "*.java")
+if [ ${#TEST_DIRS[@]} -gt 0 ]; then
+  mapfile -t TEST_CLASS_FILES < <(find "${TEST_DIRS[@]}" -name "*.java")
+else
+  TEST_CLASS_FILES=()
+fi
 TEST_CLASSES=()
 for f in "${TEST_CLASS_FILES[@]}"; do
   # assume default package or top-level class name

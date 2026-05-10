@@ -3,7 +3,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.nio.file.StandardOpenOption;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -311,6 +310,17 @@ public class Adeverinta {
         this.motivRespingere = motivRespingere;
     }
 
+    public static boolean validateComentariu(String comentariu) {
+        if (comentariu == null) return false;
+        String trimmed = comentariu.trim();
+        int len = trimmed.length();
+        return len > 0 && len < 100; // non-zero and less than 100 chars
+    }
+
+    public boolean isComentariuValid() {
+        return validateComentariu(this.comentariu);
+    }
+
     public boolean complete() {
         return complete(new Scanner(System.in));
     }
@@ -367,6 +377,25 @@ public class Adeverinta {
 
             continut = continut.replace(token, value);
             matcher = myPattern.matcher(continut);
+        }
+
+        // Prompt for a short motivation/comment if it's not already provided
+        if (!validateComentariu(this.comentariu)) {
+            System.out.print("Comentariu (scurta motivare, max 99 caractere): ");
+            if (!scanner.hasNextLine()) {
+                System.out.println("Nu s-a primit comentariu. Oprire.");
+                return false;
+            }
+            String comm = scanner.nextLine();
+            while (!validateComentariu(comm)) {
+                System.out.print("Comentariu invalid. Reintrodu (1-99 caractere): ");
+                if (!scanner.hasNextLine()) {
+                    System.out.println("Nu s-a primit comentariu. Oprire.");
+                    return false;
+                }
+                comm = scanner.nextLine();
+            }
+            this.comentariu = comm;
         }
 
         try {
