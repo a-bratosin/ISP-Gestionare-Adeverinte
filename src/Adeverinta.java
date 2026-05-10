@@ -15,6 +15,11 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/*
+Posibil TODO: adauga si motivarea de respingere.
+TODO: sa se completeze automat campurile cu datele
+*/
+
 public class Adeverinta {
 
     private String path;
@@ -92,6 +97,11 @@ public class Adeverinta {
         this.decanSemnatar = decanSemnatar;
     }
 
+    /*
+    Constructor pe baza entry-ului din CSV. Foloseste ternary op ca sa "traduca" din entry
+    in campurile necesare.
+    TODO: poate un pic curatat
+    */
     public Adeverinta(
         String[] entry,
         Student studentEmitator,
@@ -99,19 +109,33 @@ public class Adeverinta {
         Decan decanSemnatar
     ) {
         this(
-            (entry != null && entry.length > 1 && entry[1] != null && !entry[1].isEmpty())
+            (entry != null &&
+                entry.length > 1 &&
+                entry[1] != null &&
+                !entry[1].isEmpty())
                 ? Date.from(Instant.parse(entry[1]))
                 : null,
-            (entry != null && entry.length > 2 && entry[2] != null && !entry[2].isEmpty())
+            (entry != null &&
+                entry.length > 2 &&
+                entry[2] != null &&
+                !entry[2].isEmpty())
                 ? Date.from(Instant.parse(entry[2]))
                 : null,
-            (entry != null && entry.length > 3 && entry[3] != null && !entry[3].isEmpty())
+            (entry != null &&
+                entry.length > 3 &&
+                entry[3] != null &&
+                !entry[3].isEmpty())
                 ? StareCerere.valueOf(entry[3])
                 : null,
-            (entry != null && entry.length > 4 && entry[4] != null && !entry[4].isEmpty())
+            (entry != null &&
+                entry.length > 4 &&
+                entry[4] != null &&
+                !entry[4].isEmpty())
                 ? CategoriiAdeverinte.valueOf(entry[4])
                 : null,
-            (entry != null && entry.length > 5 && entry[5] != null) ? entry[5] : "",
+            (entry != null && entry.length > 5 && entry[5] != null)
+                ? entry[5]
+                : "",
             studentEmitator,
             secretarValidator,
             decanSemnatar
@@ -140,15 +164,18 @@ public class Adeverinta {
         }
 
         try {
-            List<String> lines = Files.readAllLines(csvPath, StandardCharsets.UTF_8);
+            List<String> lines = Files.readAllLines(
+                csvPath,
+                StandardCharsets.UTF_8
+            );
             if (lines.isEmpty()) return lista;
-            
+
             // Skip header
             for (int i = 1; i < lines.size(); i++) {
                 String line = lines.get(i);
                 if (line.isBlank()) continue;
-                
-                String[] entry = CsvManager.parseCsvLine(line, ','); 
+
+                String[] entry = CsvManager.parseCsvLine(line, ',');
                 Student student = (Student) Autentificare.getUserById(entry[0]);
                 lista.add(new Adeverinta(entry, student, null, null));
             }
@@ -161,27 +188,35 @@ public class Adeverinta {
     public void updateInCsv() {
         Path csvPath = Path.of("db", "adeverinte.csv");
         try {
-            List<String> lines = Files.readAllLines(csvPath, StandardCharsets.UTF_8);
+            List<String> lines = Files.readAllLines(
+                csvPath,
+                StandardCharsets.UTF_8
+            );
             List<String> newLines = new ArrayList<>();
             if (lines.isEmpty()) return;
 
             newLines.add(lines.get(0)); // header
-            
-            String isoDataTrimitere = DateTimeFormatter.ISO_INSTANT.format(this.dataTrimitere.toInstant());
+
+            String isoDataTrimitere = DateTimeFormatter.ISO_INSTANT.format(
+                this.dataTrimitere.toInstant()
+            );
             String currentUserId = studentEmitator.getId();
 
             boolean found = false;
             for (int i = 1; i < lines.size(); i++) {
                 String line = lines.get(i);
                 String[] entry = CsvManager.parseCsvLine(line, ',');
-                if (entry[0].equals(currentUserId) && entry[1].equals(isoDataTrimitere)) {
+                if (
+                    entry[0].equals(currentUserId) &&
+                    entry[1].equals(isoDataTrimitere)
+                ) {
                     newLines.add(toCsvRow());
                     found = true;
                 } else {
                     newLines.add(line);
                 }
             }
-            
+
             if (!found) {
                 newLines.add(toCsvRow());
             }
@@ -192,25 +227,57 @@ public class Adeverinta {
         }
     }
 
+    /*
+    Transforma atributele in text si le concateneaza, pentru stocare in CSV
+    TODO: Si aici trebuie curatat.
+    */
     private String toCsvRow() {
-        return CsvManager.csvEscape(studentEmitator.getId()) + "," +
-               CsvManager.csvEscape(DateTimeFormatter.ISO_INSTANT.format(dataTrimitere.toInstant())) + "," +
-               CsvManager.csvEscape(dataFinalizare == null ? "" : DateTimeFormatter.ISO_INSTANT.format(dataFinalizare.toInstant())) + "," +
-               CsvManager.csvEscape(stareCerere == null ? "" : stareCerere.name()) + "," +
-               CsvManager.csvEscape(categorieCerere == null ? "" : categorieCerere.name()) + "," +
-               CsvManager.csvEscape(comentariu) + "," +
-               CsvManager.csvEscape(path);
+        return (
+            CsvManager.csvEscape(studentEmitator.getId()) +
+            "," +
+            CsvManager.csvEscape(
+                DateTimeFormatter.ISO_INSTANT.format(dataTrimitere.toInstant())
+            ) +
+            "," +
+            CsvManager.csvEscape(
+                dataFinalizare == null
+                    ? ""
+                    : DateTimeFormatter.ISO_INSTANT.format(
+                          dataFinalizare.toInstant()
+                      )
+            ) +
+            "," +
+            CsvManager.csvEscape(
+                stareCerere == null ? "" : stareCerere.name()
+            ) +
+            "," +
+            CsvManager.csvEscape(
+                categorieCerere == null ? "" : categorieCerere.name()
+            ) +
+            "," +
+            CsvManager.csvEscape(comentariu) +
+            "," +
+            CsvManager.csvEscape(path)
+        );
     }
 
     public void vizualizareAdeverinta() {
         System.out.println("------- VIZUALIZARE ADEVERINTA -------");
-        System.out.println("Student: " + studentEmitator.getNume() + " " + studentEmitator.getPrenume());
+        System.out.println(
+            "Student: " +
+                studentEmitator.getNume() +
+                " " +
+                studentEmitator.getPrenume()
+        );
         System.out.println("Data Trimitere: " + dataTrimitere);
         System.out.println("Categorie: " + categorieCerere);
         System.out.println("Stare: " + stareCerere);
         System.out.println("Continut:");
         try {
-            String content = Files.readString(Path.of(this.path), StandardCharsets.UTF_8);
+            String content = Files.readString(
+                Path.of(this.path),
+                StandardCharsets.UTF_8
+            );
             System.out.println(content);
         } catch (IOException e) {
             System.out.println("[Eroare la citirea continutului]");

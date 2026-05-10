@@ -11,6 +11,7 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 public class Decan extends Utilizator {
+
     private String facultate;
     private String idMandat;
 
@@ -45,6 +46,7 @@ public class Decan extends Utilizator {
     void setFacultate(String facultate) {
         this.facultate = facultate;
     }
+
     void setIdMandat(String idMandat) {
         this.idMandat = idMandat;
     }
@@ -52,6 +54,7 @@ public class Decan extends Utilizator {
     String getFacultate() {
         return facultate;
     }
+
     String getIdMandat() {
         return idMandat;
     }
@@ -65,7 +68,16 @@ public class Decan extends Utilizator {
 
         System.out.println("--- Adeverinte trimise la decan ---");
         for (int i = 0; i < nesemnate.length; i++) {
-            System.out.println(i + " - Student: " + nesemnate[i].getStudentEmitator().getNume() + " " + nesemnate[i].getStudentEmitator().getPrenume() + " (" + nesemnate[i].getCategorieCerere() + ")");
+            System.out.println(
+                i +
+                    " - Student: " +
+                    nesemnate[i].getStudentEmitator().getNume() +
+                    " " +
+                    nesemnate[i].getStudentEmitator().getPrenume() +
+                    " (" +
+                    nesemnate[i].getCategorieCerere() +
+                    ")"
+            );
         }
 
         System.out.print("Alegeti adeverinta (sau -1 pt renuntare): ");
@@ -82,7 +94,7 @@ public class Decan extends Utilizator {
         System.out.println("1 - Semneaza (Accepta)");
         System.out.println("2 - Trimite inapoi la secretar (Respinge)");
         System.out.print("Alegere: ");
-        
+
         int actiune = 0;
         if (scanner.hasNextInt()) actiune = scanner.nextInt();
         if (scanner.hasNextLine()) scanner.nextLine();
@@ -92,35 +104,59 @@ public class Decan extends Utilizator {
             String pwd = scanner.nextLine();
 
             try {
-                String content = Files.readString(Path.of(sel.getPath()), StandardCharsets.UTF_8);
+                String content = Files.readString(
+                    Path.of(sel.getPath()),
+                    StandardCharsets.UTF_8
+                );
                 String signature = generateSignature(content, pwd);
-                
-                String signedContent = content + "\n\n[SEMNATURA DIGITALA DECAN: " + signature + "]\n[DECAN: " + this.getNume() + " " + this.getPrenume() + "]\n";
-                Files.writeString(Path.of(sel.getPath()), signedContent, StandardCharsets.UTF_8);
+
+                String signedContent =
+                    content +
+                    "\n\n[SEMNATURA DIGITALA DECAN: " +
+                    signature +
+                    "]\n[DECAN: " +
+                    this.getNume() +
+                    " " +
+                    this.getPrenume() +
+                    "]\n";
+                Files.writeString(
+                    Path.of(sel.getPath()),
+                    signedContent,
+                    StandardCharsets.UTF_8
+                );
 
                 sel.SetStareCerere(StareCerere.finalizata);
                 sel.updateInCsv();
                 System.out.println("Adeverinta a fost semnata cu succes!");
-
             } catch (Exception e) {
-                System.err.println("Eroare la semnarea adeverintei: " + e.getMessage());
+                System.err.println(
+                    "Eroare la semnarea adeverintei: " + e.getMessage()
+                );
             }
         } else if (actiune == 2) {
             sel.SetStareCerere(StareCerere.incarcataDeStudent); // Trimitere inapoi la secretar
             sel.updateInCsv();
-            System.out.println("Adeverinta a fost retrimisa catre secretar.");
+            System.out.println(
+                "Adeverinta a fost retrimisa catre secretar pentru reverificare."
+            );
         } else {
             System.out.println("Actiune anulata.");
         }
     }
 
-    private String generateSignature(String data, String key) throws NoSuchAlgorithmException, InvalidKeyException {
+    private String generateSignature(String data, String key)
+        throws NoSuchAlgorithmException, InvalidKeyException {
         // Simple HMAC approach with password as key
         Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
-        SecretKeySpec secret_key = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
+        SecretKeySpec secret_key = new SecretKeySpec(
+            key.getBytes(StandardCharsets.UTF_8),
+            "HmacSHA256"
+        );
         sha256_HMAC.init(secret_key);
 
-        return Base64.getEncoder().encodeToString(sha256_HMAC.doFinal(data.getBytes(StandardCharsets.UTF_8)));
+        return Base64.getEncoder().encodeToString(
+            sha256_HMAC.doFinal(data.getBytes(StandardCharsets.UTF_8))
+        );
     }
 
     // Removed separate methods to keep it clean as they are now merged

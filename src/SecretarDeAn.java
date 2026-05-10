@@ -3,6 +3,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class SecretarDeAn extends Utilizator {
+
     private int an;
     private String programDeLucru;
     private String programPublic;
@@ -17,7 +18,7 @@ public class SecretarDeAn extends Utilizator {
         int an,
         String programDeLucru,
         String programPublic
-    ){
+    ) {
         super(id, nume, prenume, telefon, email, parola);
         this.an = an;
         this.programDeLucru = programDeLucru;
@@ -32,11 +33,17 @@ public class SecretarDeAn extends Utilizator {
             (baseEntry != null && baseEntry.length > 3) ? baseEntry[3] : "",
             (baseEntry != null && baseEntry.length > 4) ? baseEntry[4] : "",
             (baseEntry != null && baseEntry.length > 5) ? baseEntry[5] : "",
-            (secretarEntry != null && secretarEntry.length > 1 && !secretarEntry[1].isEmpty())
+            (secretarEntry != null &&
+                secretarEntry.length > 1 &&
+                !secretarEntry[1].isEmpty())
                 ? Integer.parseInt(secretarEntry[1])
                 : 0,
-            (secretarEntry != null && secretarEntry.length > 2) ? secretarEntry[2] : "",
-            (secretarEntry != null && secretarEntry.length > 3) ? secretarEntry[3] : ""
+            (secretarEntry != null && secretarEntry.length > 2)
+                ? secretarEntry[2]
+                : "",
+            (secretarEntry != null && secretarEntry.length > 3)
+                ? secretarEntry[3]
+                : ""
         );
     }
 
@@ -47,24 +54,35 @@ public class SecretarDeAn extends Utilizator {
     public void valideazaCerere(Scanner scanner) {
         Adeverinta[] nevalidate = Adeverinta.get_nevalidate();
         List<Adeverinta> deValidat = new ArrayList<>();
-        
-        System.out.println("Cererile de adeverinta pentru anul " + this.an + ":");
+
+        System.out.println(
+            "Cererile de adeverinta pentru anul " + this.an + ":"
+        );
         for (Adeverinta a : nevalidate) {
-            if (a.getStudentEmitator() != null && a.getStudentEmitator().getAn() == this.an) {
+            if (
+                a.getStudentEmitator() != null &&
+                a.getStudentEmitator().getAn() == this.an
+            ) {
                 deValidat.add(a);
             }
         }
-        
+
         if (deValidat.isEmpty()) {
             System.out.println("Nu exista cereri noi.");
             return;
         }
-        
+
         for (int i = 0; i < deValidat.size(); i++) {
             Adeverinta a = deValidat.get(i);
-            System.out.println(i + " - " + a.getStudentEmitator().getNume() + " " + a.getStudentEmitator().getPrenume());
+            System.out.println(
+                i +
+                    " - " +
+                    a.getStudentEmitator().getNume() +
+                    " " +
+                    a.getStudentEmitator().getPrenume()
+            );
         }
-        
+
         System.out.print("Selectati adeverinta (sau -1 pentru iesire): ");
         if (!scanner.hasNextInt()) {
             scanner.next();
@@ -72,12 +90,12 @@ public class SecretarDeAn extends Utilizator {
         }
         int choice = scanner.nextInt();
         if (scanner.hasNextLine()) scanner.nextLine(); // consume newline
-        
+
         if (choice >= 0 && choice < deValidat.size()) {
             Adeverinta selectata = deValidat.get(choice);
             selectata.vizualizareAdeverinta();
-            
-            System.out.print("Validati aceasta adeverinta? (y/n): ");
+
+            System.out.print("Validati aceasta adeverinta? (y/N): ");
             String ans = scanner.nextLine().trim();
             if (ans.equalsIgnoreCase("y")) {
                 selectata.SetStareCerere(StareCerere.trimisaLaDecan);
@@ -90,7 +108,7 @@ public class SecretarDeAn extends Utilizator {
         }
     }
 
-    public void respingereCerere(){
+    public void respingereCerere() {
         return; //TODO
     }
 }
