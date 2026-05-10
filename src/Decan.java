@@ -88,7 +88,7 @@ public class Decan extends Utilizator {
         if (choice < 0 || choice >= nesemnate.length) return;
 
         Adeverinta sel = nesemnate[choice];
-        sel.vizualizareAdeverinta();
+        sel.vizualizareAdeverinta(this);
 
         System.out.println("Actiuni disponibile:");
         System.out.println("1 - Semneaza (Accepta)");
@@ -134,6 +134,10 @@ public class Decan extends Utilizator {
                 );
             }
         } else if (actiune == 2) {
+            System.out.print("Introduceti motivul respingerii (optional, apasati Enter pt a lasa gol): ");
+            String motiv = scanner.nextLine().trim();
+            sel.setMotivRespingere(motiv);
+            
             sel.SetStareCerere(StareCerere.incarcataDeStudent); // Trimitere inapoi la secretar
             sel.updateInCsv();
             System.out.println(

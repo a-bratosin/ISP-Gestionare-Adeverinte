@@ -1,6 +1,47 @@
+<<<<<<< HEAD
 userId,dataTrimitere,dataFinalizare,stareCerere,categorieCerere,comentariu,path
 0,2026-05-06T14:33:55.426Z,,finalizata,adeverintaStudent,,db/adeverinte/27e33fe833f5.adeverinta
 0,2026-05-06T15:56:50.699Z,,incarcataDeStudent,adeverintaMaster,,db/adeverinte/ec981ac942fa.adeverinta
 0,2026-05-07T06:51:56.623Z,,incarcataDeStudent,adeverintaStudent,,db/adeverinte/1bfde78ca0e3.adeverinta
 0,2026-05-07T07:13:12.246Z,,finalizata,adeverintaStudent,,db/adeverinte/446732acf49f.adeverinta
 0,2026-05-09T18:20:46.284Z,,incarcataDeStudent,adeverintaStudent,,db/adeverinte/4d0fdd8800e3.adeverinta
+=======
+userId,dataTrimitere,dataFinalizare,stareCerere,categorieCerere,comentariu,path,motivRespingere
+0,2026-05-06T14:33:55.426Z,,finalizata,adeverintaStudent,,db/adeverinte/27e33fe833f5.adeverinta,
+0,2026-05-06T15:56:50.699Z,,incarcataDeStudent,adeverintaMaster,,db/adeverinte/ec981ac942fa.adeverinta,
+0,2026-05-07T06:51:56.623Z,,incarcataDeStudent,adeverintaStudent,,db/adeverinte/1bfde78ca0e3.adeverinta,
+0,2026-05-07T07:13:12.246Z,,trimisaLaDecan,adeverintaStudent,,db/adeverinte/446732acf49f.adeverinta,
+0,2026-05-09T20:36:28.690Z,,incarcataDeStudent,adeverintaStudent,Motiv student: am nevoie de ea.,db/adeverinte/sim_test.adeverinta,Lipseste stampila de la biblioteca.
+2,2026-05-09T23:08:13.679Z,,incarcataDeStudent,adeverintaLicenta,,db/adeverinte/43ecc810c6f9.adeverinta,
+2,2026-05-09T23:21:39.719Z,,incarcataDeStudent,adeverintaStudent,pt a servi la angajare,db/adeverinte/fdc212155819.adeverinta,
+0,2026-05-09T23:41:46.092Z,,incarcataDeStudent,adeverintaStudent,bratosin-refuse-1778370106011,db/adeverinte/ff2baacb0bb8.adeverinta,
+0,2026-05-09T23:41:46.290Z,,finalizata,adeverintaStudent,bratosin-confirm-1778370106288,db/adeverinte/915326708b01.adeverinta,
+0,2026-05-09T23:56:45.921Z,,finalizata,adeverintaStudent,gabi-confirm-1778371005866,/tmp/test_adev572973954470211194.adeverinta,
+0,2026-05-09T23:56:46.095Z,,trimisaLaDecan,adeverintaStudent,gabi-refuse-1778371006094,/tmp/test_adev14041590497004357991.adeverinta,
+0,2026-05-09T23:57:48.058Z,,finalizata,adeverintaStudent,gabi-confirm-1778371068000,/tmp/test_adev9357249214575606501.adeverinta,
+0,2026-05-09T23:57:48.275Z,,incarcataDeStudent,adeverintaStudent,gabi-refuse-1778371068274,/tmp/test_adev9715217527152604149.adeverinta,Reason from decan
+0,2026-05-10T00:06:01.759Z,,incarcataDeStudent,adeverintaStudent,test,db/adeverinte/a00030481885.adeverinta,
+0,2026-05-10T00:06:01.911Z,,incarcataDeStudent,adeverintaStudent,test,db/adeverinte/91175c87d08a.adeverinta,
+0,2026-05-10T00:06:01.949Z,,finalizata,adeverintaStudent,gabi-confirm-1778371561948,/tmp/test_adev3882637365634948705.adeverinta,
+0,2026-05-10T00:06:02.118Z,,incarcataDeStudent,adeverintaStudent,gabi-refuse-1778371562117,/tmp/test_adev1190119722699261489.adeverinta,Reason from decan
+0,2026-05-10T00:07:09.839Z,,incarcataDeStudent,adeverintaStudent,test,db/adeverinte/d0ae503eb1a4.adeverinta,
+0,2026-05-10T00:07:09.926Z,,incarcataDeStudent,adeverintaStudent,test,db/adeverinte/3209693e0c97.adeverinta,
+0,2026-05-10T00:07:09.955Z,,finalizata,adeverintaStudent,gabi-confirm-1778371629953,/tmp/test_adev9559507031342933918.adeverinta,
+0,2026-05-10T00:07:10.170Z,,incarcataDeStudent,adeverintaStudent,gabi-refuse-1778371630169,/tmp/test_adev703944077716049113.adeverinta,Reason from decan
+0,2026-05-10T00:10:30.043Z,,incarcataDeStudent,adeverintaStudent,test,db/adeverinte/378fe18aaa28.adeverinta,
+0,2026-05-10T00:10:30.134Z,,incarcataDeStudent,adeverintaStudent,test,db/adeverinte/07fb5ea92ddc.adeverinta,
+0,2026-05-10T00:10:30.156Z,,finalizata,adeverintaStudent,gabi-confirm-1778371830155,/tmp/test_adev2612103198091660550.adeverinta,
+0,2026-05-10T00:10:30.322Z,,incarcataDeStudent,adeverintaStudent,gabi-refuse-1778371830321,/tmp/test_adev17220055221498405393.adeverinta,Reason from decan
+0,2026-05-10T00:14:48.440Z,,incarcataDeStudent,adeverintaStudent,test,db/adeverinte/c8e0391dcfd3.adeverinta,
+0,2026-05-10T00:14:48.530Z,,incarcataDeStudent,adeverintaStudent,test,db/adeverinte/53dae4e5bad4.adeverinta,
+0,2026-05-10T00:14:48.559Z,,incarcataDeStudent,adeverintaStudent,test,db/adeverinte/9c630179188b.adeverinta,
+0,2026-05-10T00:14:48.568Z,,incarcataDeStudent,adeverintaStudent,test,db/adeverinte/a6e5278528b0.adeverinta,
+0,2026-05-10T00:16:29.319Z,,trimisaLaDecan,adeverintaStudent,bratosin-refuse-1778372189277,db/adeverinte/57a4361911bb.adeverinta,
+0,2026-05-10T00:16:29.538Z,,finalizata,adeverintaStudent,bratosin-confirm-1778372189537,db/adeverinte/6df9f569c44a.adeverinta,
+0,2026-05-10T00:16:29.661Z,,incarcataDeStudent,adeverintaStudent,patrascu-refuse-1778372189660,db/adeverinte/df0fb14673b0.adeverinta,Lipsa stampila biblioteca
+0,2026-05-10T00:16:29.691Z,,finalizata,adeverintaStudent,patrascu-approve-1778372189690,db/adeverinte/97c4112377d3.adeverinta,
+0,2026-05-10T00:17:25.015Z,,incarcataDeStudent,adeverintaStudent,bratosin-refuse-1778372244968,db/adeverinte/6b9d0759dd1a.adeverinta,
+0,2026-05-10T00:17:25.240Z,,finalizata,adeverintaStudent,bratosin-confirm-1778372245239,db/adeverinte/0470f9244db6.adeverinta,
+0,2026-05-10T00:17:25.361Z,,incarcataDeStudent,adeverintaStudent,patrascu-refuse-1778372245360,db/adeverinte/c0e85427671b.adeverinta,Lipsa stampila biblioteca
+0,2026-05-10T00:17:25.398Z,,finalizata,adeverintaStudent,patrascu-approve-1778372245397,db/adeverinte/f4d8922632f8.adeverinta,
+>>>>>>> da1d3ea540b403c1254653efa3900d5185a98773

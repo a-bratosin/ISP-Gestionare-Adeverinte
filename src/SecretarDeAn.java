@@ -93,9 +93,15 @@ public class SecretarDeAn extends Utilizator {
 
         if (choice >= 0 && choice < deValidat.size()) {
             Adeverinta selectata = deValidat.get(choice);
+<<<<<<< HEAD
             selectata.vizualizareAdeverinta();
 
             System.out.print("Validati aceasta adeverinta? (y/N): ");
+=======
+            selectata.vizualizareAdeverinta(this);
+            
+            System.out.print("Validati aceasta adeverinta? (y/n): ");
+>>>>>>> da1d3ea540b403c1254653efa3900d5185a98773
             String ans = scanner.nextLine().trim();
             if (ans.equalsIgnoreCase("y")) {
                 selectata.SetStareCerere(StareCerere.trimisaLaDecan);

@@ -3,7 +3,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.nio.file.StandardOpenOption;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -28,6 +27,7 @@ public class Adeverinta {
     private StareCerere stareCerere;
     private CategoriiAdeverinte categorieCerere;
     private String comentariu;
+    private String motivRespingere;
     private Student studentEmitator;
     private SecretarDeAn secretarValidator;
     private Decan decanSemnatar;
@@ -47,6 +47,7 @@ public class Adeverinta {
             stareCerere,
             categorieCerere,
             comentariu,
+            "",
             studentEmitator,
             null,
             null
@@ -69,6 +70,7 @@ public class Adeverinta {
             stareCerere,
             categorieCerere,
             comentariu,
+            "",
             studentEmitator,
             secretarValidator,
             null
@@ -82,6 +84,7 @@ public class Adeverinta {
         StareCerere stareCerere,
         CategoriiAdeverinte categorieCerere,
         String comentariu,
+        String motivRespingere,
         Student studentEmitator,
         SecretarDeAn secretarValidator,
         Decan decanSemnatar
@@ -92,6 +95,7 @@ public class Adeverinta {
         this.stareCerere = stareCerere;
         this.categorieCerere = categorieCerere;
         this.comentariu = comentariu;
+        this.motivRespingere = (motivRespingere != null) ? motivRespingere : "";
         this.studentEmitator = studentEmitator;
         this.secretarValidator = secretarValidator;
         this.decanSemnatar = decanSemnatar;
@@ -133,9 +137,14 @@ public class Adeverinta {
                 !entry[4].isEmpty())
                 ? CategoriiAdeverinte.valueOf(entry[4])
                 : null,
+<<<<<<< HEAD
             (entry != null && entry.length > 5 && entry[5] != null)
                 ? entry[5]
                 : "",
+=======
+            (entry != null && entry.length > 5 && entry[5] != null) ? entry[5] : "",
+            (entry != null && entry.length > 7 && entry[7] != null) ? entry[7] : "",
+>>>>>>> da1d3ea540b403c1254653efa3900d5185a98773
             studentEmitator,
             secretarValidator,
             decanSemnatar
@@ -232,6 +241,7 @@ public class Adeverinta {
     TODO: Si aici trebuie curatat.
     */
     private String toCsvRow() {
+<<<<<<< HEAD
         return (
             CsvManager.csvEscape(studentEmitator.getId()) +
             "," +
@@ -259,9 +269,19 @@ public class Adeverinta {
             "," +
             CsvManager.csvEscape(path)
         );
+=======
+        return CsvManager.csvEscape(studentEmitator.getId()) + "," +
+               CsvManager.csvEscape(DateTimeFormatter.ISO_INSTANT.format(dataTrimitere.toInstant())) + "," +
+               CsvManager.csvEscape(dataFinalizare == null ? "" : DateTimeFormatter.ISO_INSTANT.format(dataFinalizare.toInstant())) + "," +
+               CsvManager.csvEscape(stareCerere == null ? "" : stareCerere.name()) + "," +
+               CsvManager.csvEscape(categorieCerere == null ? "" : categorieCerere.name()) + "," +
+               CsvManager.csvEscape(comentariu) + "," +
+               CsvManager.csvEscape(path) + "," +
+               CsvManager.csvEscape(motivRespingere);
+>>>>>>> da1d3ea540b403c1254653efa3900d5185a98773
     }
 
-    public void vizualizareAdeverinta() {
+    public void vizualizareAdeverinta(Utilizator viewer) {
         System.out.println("------- VIZUALIZARE ADEVERINTA -------");
         System.out.println(
             "Student: " +
@@ -272,6 +292,9 @@ public class Adeverinta {
         System.out.println("Data Trimitere: " + dataTrimitere);
         System.out.println("Categorie: " + categorieCerere);
         System.out.println("Stare: " + stareCerere);
+        if (viewer instanceof SecretarDeAn && motivRespingere != null && !motivRespingere.isEmpty()) {
+            System.out.println("Motiv Respingere Decan: " + motivRespingere);
+        }
         System.out.println("Continut:");
         try {
             String content = Files.readString(
@@ -360,6 +383,25 @@ public class Adeverinta {
         this.comentariu = comentariu;
     }
 
+    public String getMotivRespingere() {
+        return motivRespingere;
+    }
+
+    public void setMotivRespingere(String motivRespingere) {
+        this.motivRespingere = motivRespingere;
+    }
+
+    public static boolean validateComentariu(String comentariu) {
+        if (comentariu == null) return false;
+        String trimmed = comentariu.trim();
+        int len = trimmed.length();
+        return len > 0 && len < 100; // non-zero and less than 100 chars
+    }
+
+    public boolean isComentariuValid() {
+        return validateComentariu(this.comentariu);
+    }
+
     public boolean complete() {
         return complete(new Scanner(System.in));
     }
@@ -389,6 +431,19 @@ public class Adeverinta {
         Pattern myPattern = Pattern.compile("::[A-Za-z0-9_]+::");
         Map<String, String> valori = new HashMap<>();
 
+        if (studentEmitator != null) {
+            valori.put("nume", studentEmitator.getNume() + " " + studentEmitator.getPrenume());
+            valori.put("prenume", studentEmitator.getPrenume());
+            valori.put("grupa", String.valueOf(studentEmitator.getGrupa()));
+            valori.put("serie", studentEmitator.getSerie());
+            valori.put("nrMatriceal", String.valueOf(studentEmitator.getNrMatriceal()));
+        }
+        // If the template explicitly contains a ::data:: token, prompt the user for it.
+        // Otherwise, prefill with today's date.
+        if (!continut.contains("::data::")) {
+            valori.put("data", new java.text.SimpleDateFormat("dd/MM/yyyy").format(new Date()));
+        }
+
         Matcher matcher = myPattern.matcher(continut);
         while (matcher.find()) {
             String token = matcher.group(); // ::label::
@@ -407,6 +462,25 @@ public class Adeverinta {
 
             continut = continut.replace(token, value);
             matcher = myPattern.matcher(continut);
+        }
+
+        // Prompt for a short motivation/comment if it's not already provided
+        if (!validateComentariu(this.comentariu)) {
+            System.out.print("Comentariu (scurta motivare, max 99 caractere): ");
+            if (!scanner.hasNextLine()) {
+                System.out.println("Nu s-a primit comentariu. Oprire.");
+                return false;
+            }
+            String comm = scanner.nextLine();
+            while (!validateComentariu(comm)) {
+                System.out.print("Comentariu invalid. Reintrodu (1-99 caractere): ");
+                if (!scanner.hasNextLine()) {
+                    System.out.println("Nu s-a primit comentariu. Oprire.");
+                    return false;
+                }
+                comm = scanner.nextLine();
+            }
+            this.comentariu = comm;
         }
 
         try {
