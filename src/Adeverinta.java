@@ -113,38 +113,46 @@ public class Adeverinta {
         Decan decanSemnatar
     ) {
         this(
+            // data trimitere
             (entry != null &&
                 entry.length > 1 &&
                 entry[1] != null &&
                 !entry[1].isEmpty())
                 ? Date.from(Instant.parse(entry[1]))
                 : null,
+            // data finalizare
             (entry != null &&
                 entry.length > 2 &&
                 entry[2] != null &&
                 !entry[2].isEmpty())
                 ? Date.from(Instant.parse(entry[2]))
                 : null,
+            // stare cerere
             (entry != null &&
                 entry.length > 3 &&
                 entry[3] != null &&
                 !entry[3].isEmpty())
                 ? StareCerere.valueOf(entry[3])
                 : null,
+            // categorie adeverinta
             (entry != null &&
                 entry.length > 4 &&
                 entry[4] != null &&
                 !entry[4].isEmpty())
                 ? CategoriiAdeverinte.valueOf(entry[4])
                 : null,
-<<<<<<< HEAD
+            // cometarii
             (entry != null && entry.length > 5 && entry[5] != null)
                 ? entry[5]
                 : "",
-=======
-            (entry != null && entry.length > 5 && entry[5] != null) ? entry[5] : "",
-            (entry != null && entry.length > 7 && entry[7] != null) ? entry[7] : "",
->>>>>>> da1d3ea540b403c1254653efa3900d5185a98773
+            // // path
+            // (entry != null && entry.length > 5 && entry[5] != null)
+            //     ? entry[5]
+            //     : "",
+            // motiv respingere
+            (entry != null && entry.length > 7 && entry[7] != null)
+                ? entry[7]
+                : "",
             studentEmitator,
             secretarValidator,
             decanSemnatar
@@ -241,7 +249,35 @@ public class Adeverinta {
     TODO: Si aici trebuie curatat.
     */
     private String toCsvRow() {
-<<<<<<< HEAD
+        // //<<<<<<< HEAD
+        // return (
+        //     CsvManager.csvEscape(studentEmitator.getId()) +
+        //     "," +
+        //     CsvManager.csvEscape(
+        //         DateTimeFormatter.ISO_INSTANT.format(dataTrimitere.toInstant())
+        //     ) +
+        //     "," +
+        //     CsvManager.csvEscape(
+        //         dataFinalizare == null
+        //             ? ""
+        //             : DateTimeFormatter.ISO_INSTANT.format(
+        //                   dataFinalizare.toInstant()
+        //               )
+        //     ) +
+        //     "," +
+        //     CsvManager.csvEscape(
+        //         stareCerere == null ? "" : stareCerere.name()
+        //     ) +
+        //     "," +
+        //     CsvManager.csvEscape(
+        //         categorieCerere == null ? "" : categorieCerere.name()
+        //     ) +
+        //     "," +
+        //     CsvManager.csvEscape(comentariu) +
+        //     "," +
+        //     CsvManager.csvEscape(path)
+        // );
+        // //=======
         return (
             CsvManager.csvEscape(studentEmitator.getId()) +
             "," +
@@ -267,18 +303,11 @@ public class Adeverinta {
             "," +
             CsvManager.csvEscape(comentariu) +
             "," +
-            CsvManager.csvEscape(path)
+            CsvManager.csvEscape(path) +
+            "," +
+            CsvManager.csvEscape(motivRespingere)
         );
-=======
-        return CsvManager.csvEscape(studentEmitator.getId()) + "," +
-               CsvManager.csvEscape(DateTimeFormatter.ISO_INSTANT.format(dataTrimitere.toInstant())) + "," +
-               CsvManager.csvEscape(dataFinalizare == null ? "" : DateTimeFormatter.ISO_INSTANT.format(dataFinalizare.toInstant())) + "," +
-               CsvManager.csvEscape(stareCerere == null ? "" : stareCerere.name()) + "," +
-               CsvManager.csvEscape(categorieCerere == null ? "" : categorieCerere.name()) + "," +
-               CsvManager.csvEscape(comentariu) + "," +
-               CsvManager.csvEscape(path) + "," +
-               CsvManager.csvEscape(motivRespingere);
->>>>>>> da1d3ea540b403c1254653efa3900d5185a98773
+        //>>>>>>> da1d3ea540b403c1254653efa3900d5185a98773
     }
 
     public void vizualizareAdeverinta(Utilizator viewer) {
@@ -292,7 +321,11 @@ public class Adeverinta {
         System.out.println("Data Trimitere: " + dataTrimitere);
         System.out.println("Categorie: " + categorieCerere);
         System.out.println("Stare: " + stareCerere);
-        if (viewer instanceof SecretarDeAn && motivRespingere != null && !motivRespingere.isEmpty()) {
+        if (
+            viewer instanceof SecretarDeAn &&
+            motivRespingere != null &&
+            !motivRespingere.isEmpty()
+        ) {
             System.out.println("Motiv Respingere Decan: " + motivRespingere);
         }
         System.out.println("Continut:");
@@ -432,16 +465,25 @@ public class Adeverinta {
         Map<String, String> valori = new HashMap<>();
 
         if (studentEmitator != null) {
-            valori.put("nume", studentEmitator.getNume() + " " + studentEmitator.getPrenume());
+            valori.put(
+                "nume",
+                studentEmitator.getNume() + " " + studentEmitator.getPrenume()
+            );
             valori.put("prenume", studentEmitator.getPrenume());
             valori.put("grupa", String.valueOf(studentEmitator.getGrupa()));
             valori.put("serie", studentEmitator.getSerie());
-            valori.put("nrMatriceal", String.valueOf(studentEmitator.getNrMatriceal()));
+            valori.put(
+                "nrMatriceal",
+                String.valueOf(studentEmitator.getNrMatriceal())
+            );
         }
         // If the template explicitly contains a ::data:: token, prompt the user for it.
         // Otherwise, prefill with today's date.
         if (!continut.contains("::data::")) {
-            valori.put("data", new java.text.SimpleDateFormat("dd/MM/yyyy").format(new Date()));
+            valori.put(
+                "data",
+                new java.text.SimpleDateFormat("dd/MM/yyyy").format(new Date())
+            );
         }
 
         Matcher matcher = myPattern.matcher(continut);
@@ -466,14 +508,18 @@ public class Adeverinta {
 
         // Prompt for a short motivation/comment if it's not already provided
         if (!validateComentariu(this.comentariu)) {
-            System.out.print("Comentariu (scurta motivare, max 99 caractere): ");
+            System.out.print(
+                "Comentariu (scurta motivare, max 99 caractere): "
+            );
             if (!scanner.hasNextLine()) {
                 System.out.println("Nu s-a primit comentariu. Oprire.");
                 return false;
             }
             String comm = scanner.nextLine();
             while (!validateComentariu(comm)) {
-                System.out.print("Comentariu invalid. Reintrodu (1-99 caractere): ");
+                System.out.print(
+                    "Comentariu invalid. Reintrodu (1-99 caractere): "
+                );
                 if (!scanner.hasNextLine()) {
                     System.out.println("Nu s-a primit comentariu. Oprire.");
                     return false;

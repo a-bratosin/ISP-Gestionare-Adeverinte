@@ -47,11 +47,15 @@ public class SecretarDeAn extends Utilizator {
         );
     }
 
-    public void valideazaCerere() {
-        valideazaCerere(new Scanner(System.in));
+    public void valideazaCerere(Utilizator userCurent) {
+        valideazaCerere(new Scanner(System.in), userCurent);
     }
 
     public void valideazaCerere(Scanner scanner) {
+        valideazaCerere(scanner, this);
+    }
+
+    public void valideazaCerere(Scanner scanner, Utilizator userCurent) {
         Adeverinta[] nevalidate = Adeverinta.get_nevalidate();
         List<Adeverinta> deValidat = new ArrayList<>();
 
@@ -93,15 +97,9 @@ public class SecretarDeAn extends Utilizator {
 
         if (choice >= 0 && choice < deValidat.size()) {
             Adeverinta selectata = deValidat.get(choice);
-<<<<<<< HEAD
-            selectata.vizualizareAdeverinta();
+            selectata.vizualizareAdeverinta(userCurent);
 
             System.out.print("Validati aceasta adeverinta? (y/N): ");
-=======
-            selectata.vizualizareAdeverinta(this);
-            
-            System.out.print("Validati aceasta adeverinta? (y/n): ");
->>>>>>> da1d3ea540b403c1254653efa3900d5185a98773
             String ans = scanner.nextLine().trim();
             if (ans.equalsIgnoreCase("y")) {
                 selectata.SetStareCerere(StareCerere.trimisaLaDecan);

@@ -66,7 +66,7 @@ public class Main {
                 if (scanner.hasNextLine()) scanner.nextLine();
 
                 if (opt == 1) {
-                    secretar.valideazaCerere(scanner);
+                    secretar.valideazaCerere(scanner, user);
                 } else if (opt == 0) {
                     running = false;
                 } else {
