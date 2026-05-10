@@ -40,6 +40,8 @@ public class Main {
                 System.out.println("\nMeniu Student:");
                 System.out.println("1 - Depune cerere noua");
                 System.out.println("2 - Vizualizeaza status cereri");
+                System.out.println("3 - Vizualizare adeverinta");
+                System.out.println("4 - Setari cont");
                 System.out.println("0 - Iesire");
                 System.out.print("Optiune: ");
                 int opt = -1;
@@ -50,6 +52,10 @@ public class Main {
                     student.incarcareAdeverinta(scanner);
                 } else if (opt == 2) {
                     student.vizualizareStatusAdeverinte(scanner);
+                } else if (opt == 3) {
+                    student.meniuVizualizareAdeverinta(scanner);
+                } else if (opt == 4) {
+                    meniuSetariCont(scanner, user);
                 } else if (opt == 0) {
                     running = false;
                 } else {
@@ -59,6 +65,7 @@ public class Main {
                 SecretarDeAn secretar = (SecretarDeAn) user;
                 System.out.println("\nMeniu Secretar:");
                 System.out.println("1 - Valideaza cerere");
+                System.out.println("2 - Setari cont");
                 System.out.println("0 - Iesire");
                 System.out.print("Optiune: ");
                 int opt = -1;
@@ -67,6 +74,8 @@ public class Main {
 
                 if (opt == 1) {
                     secretar.valideazaCerere(scanner, user);
+                } else if (opt == 2) {
+                    meniuSetariCont(scanner, user);
                 } else if (opt == 0) {
                     running = false;
                 } else {
@@ -76,6 +85,7 @@ public class Main {
                 Decan decan = (Decan) user;
                 System.out.println("\nMeniu Decan:");
                 System.out.println("1 - Gestioneaza adeverinte");
+                System.out.println("2 - Setari cont");
                 System.out.println("0 - Iesire");
                 System.out.print("Optiune: ");
                 int opt = -1;
@@ -84,6 +94,8 @@ public class Main {
 
                 if (opt == 1) {
                     decan.gestioneazaAdeverinte(scanner);
+                } else if (opt == 2) {
+                    meniuSetariCont(scanner, user);
                 } else if (opt == 0) {
                     running = false;
                 } else {
@@ -95,5 +107,29 @@ public class Main {
             }
         }
         System.out.println("La revedere!");
+    }
+
+    private static void meniuSetariCont(Scanner scanner, Utilizator user) {
+        boolean back = false;
+        while (!back) {
+            System.out.println("\n--- Setari cont ---");
+            System.out.println("1 - Modificare date (Email/Telefon)");
+            System.out.println("2 - Resetare parola");
+            System.out.println("0 - Inapoi");
+            System.out.print("Optiune: ");
+            int opt = -1;
+            if (scanner.hasNextInt()) opt = scanner.nextInt();
+            if (scanner.hasNextLine()) scanner.nextLine();
+
+            if (opt == 1) {
+                user.modificareDate(scanner);
+            } else if (opt == 2) {
+                user.resetareParola(scanner);
+            } else if (opt == 0) {
+                back = true;
+            } else {
+                System.out.println("Optiune invalida.");
+            }
+        }
     }
 }
