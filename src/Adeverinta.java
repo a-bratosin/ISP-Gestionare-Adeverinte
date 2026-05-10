@@ -357,7 +357,11 @@ public class Adeverinta {
             valori.put("serie", studentEmitator.getSerie());
             valori.put("nrMatriceal", String.valueOf(studentEmitator.getNrMatriceal()));
         }
-        valori.put("data", new java.text.SimpleDateFormat("dd/MM/yyyy").format(new Date()));
+        // If the template explicitly contains a ::data:: token, prompt the user for it.
+        // Otherwise, prefill with today's date.
+        if (!continut.contains("::data::")) {
+            valori.put("data", new java.text.SimpleDateFormat("dd/MM/yyyy").format(new Date()));
+        }
 
         Matcher matcher = myPattern.matcher(continut);
         while (matcher.find()) {

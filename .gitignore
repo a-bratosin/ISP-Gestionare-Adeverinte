@@ -2,5 +2,4 @@
 .vscode
 *.class
 *.build
-*.pdf
-*.txt
+*mermaid.txt
